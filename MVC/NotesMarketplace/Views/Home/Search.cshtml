@@ -1,0 +1,189 @@
+﻿@Model NotesMarketplace.Model.Search
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Search Note";
+    Layout = "~/Views/Shared/RegistorCommon.cshtml";
+}
+
+
+<!-- Second Section -->
+<section id="searchpage-filter" class="content-box-md">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Search and Filter notes</h3>
+            </div>
+        </div>
+        <div class="div-filter">
+
+            <div class="row filter-upper">
+                <div class="col-md-12">
+                    <div class="wrapper">
+                        <img src="img/Dashboard/search.jpg" class="searchBook Image">
+                        <input type="email" class="form-control search-bar InputEmail1" placeholder=" Search notes here...">
+                    </div>
+                </div>
+            </div>
+            <div class="row removeall">
+                <div class="col-md-2">
+                    <select name="type" class="form-control inputselect" onchange="location.href = this.name1">
+
+                        <option>Select type</option>
+
+                        <option>Type 1</option>
+                        <option>Type 2</option>
+                        <option selected>Type 3</option>
+                    </select>
+
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control inputselect">
+                        <option>Select category</option>
+                        <option>Type 1</option>
+                        <option>Type 2</option>
+                        <option>Type 3</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control inputselect">
+                        <option>Select university</option>
+                        <option>Type 1</option>
+                        <option>Type 2</option>
+                        <option>Type 3</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control inputselect">
+                        <option>Select course</option>
+                        <option>Type 1</option>
+                        <option>Type 2</option>
+                        <option>Type 3</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control inputselect">
+                        <option>Select country</option>
+                        <option>Type 1</option>
+                        <option>Type 2</option>
+                        <option>Type 3</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control inputselect">
+                        <option>Select rating</option>
+                        <option>Type 1</option>
+                        <option>Type 2</option>
+                        <option>Type 3</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Boods Info -->
+<section id="searchpage-note" class="content-box-md">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Total <span>18</span> notes</h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (NoteDetail notes in Model.search)
+            {
+                <!-- Book 1 -->
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
+
+                    <div class="book-box">
+                        <!-- Book Image -->
+                        <img src="~/Upload/Img/@notes.BookPicture" alt="Books" class="img-fluid">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+                                    <div class="book-box-content">
+
+                                        <!-- Book Name -->
+                                        <div class="book-title">
+                                            <h6>@notes.Title</h6>
+                                        </div>
+
+                                        <!-- Book Info -->
+                                        <div class="add-info">
+
+                                            <p class="sub-text"><i class="fa fa-university"></i> @notes.InstitutionName,</p>
+                                            <p class="sub-text"><i class="fa fa-book"></i> @notes.NumberOfPages Pages</p>
+                                            <p class="sub-text"><i class="fa fa-university"></i> @notes.CreatedDate</p>
+                                            <p class="inappropriate-mark"><i class="fa fa-flag"></i><span> 5 Users marked this note inappropriate</span></p>
+
+                                        </div>
+
+                                        <!-- Book Rating -->
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-12 col-xl-7 col-lg-8">
+
+                                                <div class="rate">
+
+
+                                                    <label for="star5" title="text">5 stars</label>
+
+                                                    <label for="star4" title="text">4 stars</label>
+
+                                                    <label for="star3" title="text">3 stars</label>
+
+                                                    <label for="star2" title="text">2 stars</label>
+
+                                                    <label for="star1" title="text">1 star</label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-12 col-md-12 col-xl-4 col-lg-4">
+                                                <div class="review-text">
+                                                    <p>100 reviews</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</section>
+<!-- Book Info Ends -->
+<!-- Pagination -->
+
+<nav aria-label="Page navigation example">
+    <div class="container">
+        <div class="row justify-content-center">
+
+
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-left"></i></a>
+                </li>
+                <li class="page-item selected"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-right"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

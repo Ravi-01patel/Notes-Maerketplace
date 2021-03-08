@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="701325ff45f4493d826fa36c31914510" Name="Diagram1">
+        <EntityTypeShape EntityType="NotesMarketplaceModel.AdminDetail" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.ContactU" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.CTC" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.DownloadedNote" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.Feedback" Width="1.5" PointX="8.25" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.ManageCTC" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.NoteDetail" Width="1.5" PointX="11.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.NoteStatu" Width="1.5" PointX="9" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.SpamReport" Width="1.5" PointX="13.5" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.Statistic" Width="1.5" PointX="5.25" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.SystemConfiguration" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.UserProfileDetail" Width="1.5" PointX="5.25" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.UserRole" Width="1.5" PointX="0.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotesMarketplaceModel.User" Width="1.5" PointX="3" PointY="13.875" IsExpanded="true" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK_AdminDetail_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__ManageCTC__CTC__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Downloade__Buyer__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Downloade__Users__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Downloaded__Note__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Feedback__Note__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Feedback__Users__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__NoteDetai__NoteS__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__NoteDetai__Users__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__SpamReport__Note__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__SpamRepor__Users__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Statistic__Users__4F7CD00D" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK_UserProfileDetail_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="NotesMarketplaceModel.FK__Users__UserRole__398D8EEE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

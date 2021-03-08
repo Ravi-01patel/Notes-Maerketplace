@@ -1,0 +1,125 @@
+﻿@model IPagedList<NotesMarketplace.Models.BuyerRequest>
+@using PagedList;
+@using PagedList.Mvc;
+
+    @{
+        ViewBag.Title = "Buyer Request";
+        Layout = "~/Views/Shared/RegistorCommon.cshtml";
+    }
+
+    <!-- Buyer Request -->
+    <section id="dashboard-publish" class="mydownload-margin">
+        <div class="container">
+            <div class="row top-table">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <h3 class="col-left">Buyer Requests</h3>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 extra-margin">
+                    <div class="row justify-content-end">
+                        <div class="wrapper">
+                            <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input name="buyerrequestsearch" value="@Request.QueryString["buyerrequestsearch"]" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="buyerrequestindex" value=@Request.QueryString["buyerrequestindex"] />
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid-table table-responsive-xl">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="align-middle text-center">SR NO.</th>
+                                    <th scope="col" class="align-middle">NOTE TITLE</th>
+                                    <th scope="col" class="align-middle">CATEGORY</th>
+                                    <th scope="col" class="align-middle">BUYER</th>
+                                    <th scope="col" class="align-middle">PHONE NO.</th>
+                                    <th scope="col" class="align-middle">SELL TYPE</th>
+                                    <th scope="col" class="align-middle">PRICE</th>
+                                    <th scope="col" class="align-middle">DOWNLOADED DATE/TIME</th>
+                                    <th scope="col" class="align-middle"></th>
+                                    <th scope="col" class="align-middle"></th>
+                                    <th scope="col" class="align-middle"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (NotesMarketplace.Models.BuyerRequest mynote1 in Model)
+                                {
+                                    <tr>
+                                        <td class="align-middle text-center">1</td>
+                                        <td class="align-middle getpurple">@mynote1.buyerrequest.NoteTitle</td>
+                                        <td class="align-middle">Science</td>
+                                        <td class="align-middle">@mynote1.emailid</td>
+                                        <td class="align-middle">@mynote1.phonenumber</td>
+                                        <td class="align-middle">Paid</td>
+                                        <td class="align-middle">$250</td>
+                                        <td class="align-middle">@mynote1.buyerrequest.CreatedDate</td>
+                                        <td class="align-middle">
+                                            <a href="#"><img src="~/Content/img/Dashboard/eye.png" alt="view"></a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="dropdown">
+                                                <a href="" ="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-h  dowhite"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="#">Allow Download</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- Buyer Request Ends -->
+    <!-- Pagination -->
+    @Html.PagedListPager(Model, buyerrequestindex => Url.Action("BuyerRequests", "Home", new { buyerrequestindex, buyerrequestsearch = Request.QueryString["buyerrequestsearch"], search_progress = Request.QueryString["search_progress"], field_2 = Request.QueryString["field_2"], search_progress_2 = Request.QueryString["search_progress_2"] }), new PagedList.Mvc.PagedListRenderOptions
+    {
+        ContainerDivClasses = null,
+        LiElementClasses = new string[] { "page-item1" },
+        UlElementClasses = new string[] { "pagination justify-content-center" },
+        LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+        LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+        MaximumPageNumbersToDisplay = 5,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+    })
+    @*<nav>
+            <div class="container">
+                <div class="row justify-content-center">
+
+
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-left"></i></a>
+                        </li>
+                        <li class="page-item selected"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>*@
+    <!-- Pagination Ends -->
+    <!-- Footer -->

@@ -1,0 +1,370 @@
+﻿@model NotesMarketplace.Models.MyDashboard
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Add Notes";
+
+    Layout = "~/Views/Shared/RegistorCommon.cshtml";
+}
+
+
+<!-- Dashboard -->
+<!-- Dashboard Head -->
+<section id="dashboard-upper">
+
+    <div class="container">
+
+        <!-- dashboard heading & add note button -->
+        <div class="row dashboard-upper-title">
+
+            <!-- Title -->
+            <div class="col-md-6 col-sm-12 col-12">
+                <div class="dashboard-heading">
+                    <h2>Dashboard</h2>
+                </div>
+            </div>
+            <!-- button -->
+            <div class="col-md-6 col-sm-12 col-12 text-right">
+                <a href="#">
+                    <!-- Profile Button -->
+                    <button type="button" id="mybtn" class="btn text-uppercase text-center"><b>Add Notes</b></button>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Dashboard content -->
+        <div class="dashboard-content">
+            <div class="row">
+
+                <!-- left -->
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12 rmvpadding">
+
+                    <div class="row left-earning">
+                        <!-- Earning -->
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                            <div class="myearning">
+                                <img src="~/Content/img/home/download.png" alt="earning">
+                                <h5>My Earning</h5>
+                            </div>
+                        </div>
+
+                        <!-- number of notes -->
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-12">
+
+                            <div class="row">
+
+                                <!-- Number of notes sell -->
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                    <div class="dash-left text-center">
+                                        <h4><b>@Model.mystatistic.SoldNotes</b></h4>
+                                        <p>Number Of Sold Notes</p>
+                                    </div>
+                                </div>
+
+
+                                <!-- Money Earned  -->
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                                    <div class="dash-left text-center">
+                                        <h4><b>&#36;@Model.mystatistic.TotalEarning</b></h4>
+                                        <p>Money Earned</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div class="col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="row note-info">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                            <div>
+
+                                <!-- Number of notes sell -->
+                                <div class="right-dash text-center">
+                                    <h4><b>@Model.mystatistic.DownloadedNotes</b></h4>
+                                    <p>My Downloads</p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+
+                            <!-- Number of notes sell -->
+                            <div class="right-dash text-center">
+                                <h4><b>@Model.mystatistic.RejectedNotes</b></h4>
+                                <p>My Rejected Notes</p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+
+                            <!-- Number of notes sell -->
+                            <div class="right-dash text-center">
+                                <h4><b>@Model.mystatistic.BuyerRequests</b></h4>
+                                <p>Buyer Request</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Dashboard Head Ends -->
+<!-- Dashboard Progress -->
+<section id="dashboard-progress">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-6">
+                <h3>In Progress Notes</h3>
+            </div>
+            <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="wrapper">
+                            <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input name="progresssearch" value="@Model.progresssearch" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="progressindex" value=@Request.QueryString["progressindex"] />
+                            <input hidden name="ProgressProgressTitleSort" value="@Request.QueryString["ProgressTitleSort"]" />
+                            <input hidden name="ProgressCategorySort" value="@Request.QueryString["ProgressCategorySort"]" />
+
+                            <input hidden name="publishindex" value=""/>
+                            <input hidden name="PrublishTitleSort" value="@Request.QueryString["PublishTitleSort"]" />
+                            <input hidden name="PublishCategorySort" value="@Request.QueryString["PublishCategorySort"]" />
+
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="grid-table table-responsive-xl">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="align-middle">ADDED DATE</th>
+                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {ProgressTitleSort="title" , progressindex=Request.QueryString["progressindex"], progresssearch=Request.QueryString["progresssearch"], ProgressCategorySort=Request.QueryString["ProgressCategorySort"] })'">TITLE</th>
+                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {ProgressCategorySort="category" , progressindex=Request.QueryString["progressindex"], progresssearch=Request.QueryString["progresssearch"], ProgressTitleSort=Request.QueryString["ProgressTitleSort"] })'">CATEGORY</th>
+                                <th scope="col" class="align-middle">STATUS</th>
+                                <th scope="col" class="align-middle">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (NoteDetail mynote in Model.progress)
+                            {
+                                <tr>
+                                    <td class="align-middle">@mynote.CreatedDate</td>
+                                    <td class="align-middle">@mynote.Title</td>
+                                    <td class="align-middle">@mynote.Category</td>
+                                    <td class="align-middle">Draft</td>
+
+                                    @if (mynote.NoteStatus == 1)
+                                    {
+                                        <td class="align-middle">
+                                            <div class="row">
+                                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                                    <a href="#"><img src="~/Content/img/Dashboard/edit.png" alt="Edit"></a>
+                                                </div>
+                                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                                    <a href="#"><img src="~/Content/img/Dashboard/delete.png" alt="Delete"></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="align-middle">
+                                            <div class="row text-center">
+                                                <div class="col-11 col-sm-11 col-md-9 col-lg-7">
+                                                    <a href="#"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    }
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- Dashboard Progress -->
+<!-- Pagination -->
+<section id="pagination">
+    @Html.PagedListPager(Model.progress, progressindex => Url.Action("Dashboard", "Home", new { progressindex, publishindex=Request.QueryString["publishindex"], progresssearch =Request.QueryString["progresssearch"], search_progress = Request.QueryString["search_progress"], field_2 = Request.QueryString["field_2"], search_progress_2 = Request.QueryString["search_progress_2"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+@*<nav>
+        <div class="container">
+            <div class="row justify-content-center">
+
+
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-left"></i></a>
+                    </li>
+                    <li class="page-item selected"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-right"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>*@
+<!-- Pagination Ends -->
+<!-- Dashboard Publish -->
+<section id="dashboard-publish">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Published Notes</h3>
+            </div>
+            <div class="col-md-6">
+                <div class="row justify-content-end">
+                    <div class="wrapper">
+                        <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                        <input name="publishshearch" value="@Model.publishsearch" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
+                        <input hidden name="publishindex" value=@Request.QueryString["publishindex"] />
+                        <input hidden name="PrublishTitleSort" value="@Request.QueryString["PublishTitleSort"]" />
+                        <input hidden name="PublishCategorySort" value="@Request.QueryString["PublishCategorySort"]" />
+
+                        <input hidden name="progressindex" value="" />
+                        <input hidden name="ProgressProgressTitleSort" value="@Request.QueryString["ProgressTitleSort"]" />
+                        <input hidden name="ProgressCategorySort" value="@Request.QueryString["ProgressCategorySort"]" />
+
+
+                    </div>
+                    <div class="btn-merge">
+                        <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="grid-table table-responsive-xl">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="align-middle">ADDED DATE</th>
+                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {PublishTitleSort="title" , progressindex=Request.QueryString["publishindex"], progresssearch=Request.QueryString["publishsearch"], ProgressCategorySort=Request.QueryString["PublishCategorySort"] })'">TITLE</th>
+                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {PublishCategorySort="category" , progressindex=Request.QueryString["publishindex"], progresssearch=Request.QueryString["publishsearch"], ProgressTitleSort=Request.QueryString["PublishTitleSort"] })'">CATEGORY</th>
+                                <th scope="col" class="align-middle">SELL TYPE</th>
+                                <th scope="col" class="align-middle">PRICE</th>
+                                <th scope="col" class="align-middle">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (NoteDetail mynote1 in Model.published)
+                            {
+                            <tr>
+                                <td class="align-middle">@mynote1.CreatedDate</td>
+                                <td class="align-middle">@mynote1.Title</td>
+                                <td class="align-middle">@mynote1.Category</td>
+                                
+                                    @if (mynote1.SellPrice == 0)
+                                    {
+                                          <td class="align-middle">Free</td>
+                                    }
+                                    else
+                                    {
+                                          <td class="align-middle">Paid</td>
+                                        }
+                                 
+                                    
+                                    <td class="align-middle">@mynote1.SellPrice</td>
+                                    <td class="align-middle">
+                                        <div class="row text-center">
+                                            <div class="col-11 col-sm-11 col-md-9 col-lg-7">
+                                                <a href="#"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- Pagination -->
+<section id="pagination">
+    @Html.PagedListPager(Model.published, publishindex => Url.Action("Dashboard", "Home", new {publishindex,progressindex=Request.QueryString["progressindex"], publishsearch = Request.QueryString["publishsearch"], progresssearch = Request.QueryString["searchprogresssearch"], field_2 = Request.QueryString["field_2"], search_progress_2 = Request.QueryString["search_progress_2"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+<!-- Dashboard Publish Ends -->
+<!-- Pagination -->
+<!--<nav>
+    <div class="container">
+        <div class="row justify-content-center">
+
+
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-left"></i></a>
+                </li>
+                <li class="page-item selected"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-angle-right"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>-->
+<!-- Pagination Ends-->
