@@ -58,6 +58,8 @@
     <Property Name="Attachment" Type="varchar(max)" Nullable="false" />
     <Property Name="SellPrice" Type="int" Nullable="false" />
     <Property Name="Category" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="BuyerEmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="BuyerMobile" Type="varchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="Feedback">
     <Key>
@@ -184,7 +186,7 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Users" Type="int" Nullable="false" />
-    <Property Name="DOB" Type="datetime" />
+    <Property Name="DOB" Type="date" />
     <Property Name="Gender" Type="varchar" MaxLength="10" />
     <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="ProfilePicture" Type="varchar(max)" />

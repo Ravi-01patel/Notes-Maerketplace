@@ -75,9 +75,9 @@
 
                                 <!-- Icon -->
                                 <div class="wrapper">
-                                    @Html.TextBoxFor(m => m.Passwords, new { @Type = "password", @class = "form-control InputEmail1 InputPassword1", @placeholder = "Enter your Password" , @id = "signup-pass-new-1" , @maxlength = "24" })
+                                    @Html.TextBoxFor(m => m.Passwords, new { @Type = "password", @class = "form-control InputEmail1 InputPassword1", @placeholder = "Enter your Password", @id = "signup-pass-new-1", @maxlength = "24" })
                                     <span toggle="#signup-pass-new-1" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                    
+                                    @Html.ValidationMessageFor(m => m.Passwords)
 
                                 </div>
                             </div>

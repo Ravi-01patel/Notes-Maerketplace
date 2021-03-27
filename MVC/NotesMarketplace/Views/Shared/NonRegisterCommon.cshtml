@@ -34,7 +34,7 @@
 
     <!-- Header -->
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg white-nav-top white-navbar">
+        <nav class="navbar fixed-top navbar-expand-lg white-nav-top white-navbar @ViewBag.Moveable">
             <div class="container">
 
                 <div class="navbar-header">
@@ -50,23 +50,23 @@
                 <div class="collapse navbar-collapse justify-content-end default-header" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Search Notes</span></a>
+                            <a class="nav-link @ViewBag.Search_ActiveLink" href="@Url.Action("Search","Home")"><span>Search Notes</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Sell Your Notes</span></a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><span>FAQ</span></a>
+                            <a class="nav-link @ViewBag.Sell_ActiveLink" href="@Url.Action("Login","Home")"><span>Sell Your Notes</span></a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Contact Us</span></a>
+                            <a class="nav-link @ViewBag.FAQ_ActiveLink" href="@Url.Action("FAQ","Home")"><span>FAQ</span></a>
                         </li>
 
-
                         <li class="nav-item">
-                            <a class="nav-link" id="mynavbtn">Login</a>
+                            <a class="nav-link @ViewBag.ContactUS_ActiveLink" href="@Url.Action("ContactUs","Home")"><span>Contact Us</span></a>
+                        </li>
+
+                      
+                        <li class="nav-item">
+                            <a class="nav-link" id="mynavbtn" href="@Url.Action("Login","Home")">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -79,23 +79,23 @@
                     <div id="mobile-nav-content">
                         <ul class="navbar-nav">
                             <li>
-                                <a href="#"><span>Search Notes</span></a>
+                                <a class="@ViewBag.Search_ActiveLink" href="@Url.Action("Search","Home")"><span>Search Notes</span></a>
                             </li>
                             <li>
-                                <a href="#"><span>Sell Your Notes</span></a>
-                            </li>
-
-                            <li>
-                                <a href="#"><span>FAQ</span></a>
+                                <a class="@ViewBag.Sell_ActiveLink" href="@Url.Action("AddNotes","Home")"><span>Sell Your Notes</span></a>
                             </li>
 
                             <li>
-                                <a href="#"><span>Contact Us</span></a>
+                                <a class="@ViewBag.FAQ_ActiveLink" href="@Url.Action("FAQ","Home")"><span>FAQ</span></a>
+                            </li>
+
+                            <li>
+                                <a class="@ViewBag.ContactUS_ActiveLink" href="@Url.Action("ContactUs","Home")"><span>Contact Us</span></a>
                             </li>
 
 
                             <li>
-                                <button type="submit" class="btn text-center" id="mynavbtn">Login</button>
+                                <button type="submit" class="btn text-center" id="mynavbtn" href="@Url.Action("Login","Home")">Login</button>
                             </li>
                         </ul>
                     </div>
@@ -105,7 +105,9 @@
         </nav>
     </header>
     <!-- Header Ends -->
-    @RenderBody()
+    <section class="sticky-footer">
+        @RenderBody()
+    </section>
 
 
     <!-- footer -->

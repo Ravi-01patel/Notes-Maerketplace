@@ -1,0 +1,111 @@
+﻿@model NotesMarketplace.Models.Rejected
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Rejected Notes";
+    Layout = "~/Views/Shared/RegistorCommon.cshtml";
+}
+
+<!-- My Rejected Notes -->
+<section id="dashboard-publish" class="mydownload-margin">
+    <div class="container">
+        <div class="row top-table">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <h3>My Rejected Notes</h3>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="wrapper">
+                            <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="rejectedsearch" value="@Request.QueryString["rejectedsearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="rejectedindex" value=@Request.QueryString["rejectedindex"] />
+                            <input hidden name="rejectedTitleSort" value="@Request.QueryString["rejectedTitleSort"]" />
+                            <input hidden name="rejectedCategorySort" value="@Request.QueryString["rejectedCategorySort"]" />
+
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.Rejected == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("RejectedNotes", "Home",new {rejectedTitleSort="title" , rejectedindex=Request.QueryString["rejectedindex"], rejectedsearch=Request.QueryString["rejectedsearch"], rejectedCategorySort=Request.QueryString["rejectedCategorySort"] })'">NOTE TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("RejectedNotes", "Home",new {rejectedCategorySort="category" , rejectedindex=Request.QueryString["rejectedindex"], rejectedsearch=Request.QueryString["rejectedsearch"], rejectedTitleSort=Request.QueryString["rejectedTitleSort"] })'">CATEGORY</th>
+                                        <th scope="col" class="align-middle">REMARKS</th>
+                                        <th scope="col" class="align-middle">CLONE</th>
+                                        <th scope="col" class="align-middle"> </th>
+                                        <th scope="col" class="align-middle"> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (NoteDetail mynote in Model.rejected)
+                                    {
+                                        <tr>
+                                            <td class="align-middle text-center">@index</td>
+                                            <td class="align-middle getpurple">@mynote.Title</td>
+                                            <td class="align-middle">@mynote.Category</td>
+                                            <td class="align-middle">@mynote.Remark</td>
+                                            <td class="align-middle"><a href="@Url.Action("CloneNotes","Home", new { BookID = mynote.Note})" class="getpurple">clone</a></td>
+                                            <td class="align-middle">
+                                                <div class="dropdown">
+                                                    <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Content/img/home/dots.png" alt="view">
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="@Url.Action("DownloadNote","Home", new { BookID = mynote.Note})">Download Notes</a>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        index++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- My Rejected Notes Ends-->
+<!-- Pagination -->
+<section id="pagination">
+    @Html.PagedListPager(Model.rejected, rejectedindex => Url.Action("RejectedNotes", "Home", new { rejectedindex, rejectedsearch = Request.QueryString["rejectedsearch"], rejectedTitleSort = Request.QueryString["rejectedTitleSort"], rejectedCategorySort = Request.QueryString["rejectedCategorySort"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+<!-- Pagination Ends -->
+

@@ -1,0 +1,247 @@
+﻿@model NotesMarketplace.Models.Downloads
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "My Downloads";
+    Layout = "~/Views/Shared/RegistorCommon.cshtml";
+}
+<!--Add Review Moadl -->
+<div class="modal fade modal-download" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <form action="Feedback">
+                    <div class="modal-content add-review">
+                        
+                            <div class="modal-header">
+
+                                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-close 2x"></i>
+                                </a>
+                            </div>
+                            <div class="model-data">
+
+                                <div class="modal-head text-left">
+                                    <h2>Add Review</h2>
+                                    <input type="hidden" name="bookId1" id="bookId1" value="" />
+                                </div>
+                                <div class="middel-content text-left content-justify-left">
+                                    <!-- Ratings -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="rate addhover">
+
+                                                <input type="radio" id="star5" name="rate" value="5" />
+                                                <label for="star5" title="text">5 stars</label>
+                                                <input type="radio" id="star4" name="rate" value="4" />
+                                                <label for="star4" title="text">4 stars</label>
+                                                <input type="radio" id="star3" name="rate" value="3" />
+                                                <label for="star3" title="text">3 stars</label>
+                                                <input type="radio" id="star2" name="rate" value="2" />
+                                                <label for="star2" title="text">2 stars</label>
+                                                <input type="radio" id="star1" name="rate" value="1" />
+                                                <label for="star1" title="text">1 star</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="textarea-input">
+                                                    <label class="mylabel" for="InputEmail1">Comments *</label>
+                                                    <textarea name="Comment" id="Comment" placeholder="Comments..." class="form-control InputEmail1"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade modal-download" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <form action="Spam">
+                    <div class="modal-content add-review">
+                        
+                            <div class="modal-header">
+
+                                <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-close 2x"></i>
+                                </a>
+                            </div>
+                            <div class="model-data">
+
+                                <div class="modal-head text-left">
+                                    <h2>Inappropriate</h2>
+                                    <input type="hidden" name="bookId2" id="bookId2" value="" />
+                                </div>
+                                <div class="middel-content text-left content-justify-left">
+                                    
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="textarea-input">
+                                                    <label class="mylabel" for="InputEmail1">Comments *</label>
+                                                    <textarea name="Comment" id="Comment" placeholder="Comments..." class="form-control InputEmail1"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="outerbox">
+    <section id="dashboard-publish" class="mydownload-margin">
+        <div class="container">
+            <div class="row top-table">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <h3>My Downloads</h3>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <form>
+                        <div class="row justify-content-end">
+                            <div class="wrapper">
+                                <img src="~/Content/Img/Dashboard/search.jpg" class="searchimage doup">
+                                <input type="text" name="downloadsearch" value="@Request.QueryString["downloadsearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                                <input hidden name="downloadindex" value=@Request.QueryString["downloadindex"] />
+                                <input hidden name="downloadTitleSort" value="@Request.QueryString["downloadTitleSort"]" />
+                                <input hidden name="downloadCategorySort" value="@Request.QueryString["downloadCategorySort"]" />
+                            </div>
+                            <div class="btn-merge">
+                                <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="grid-table table-responsive-xl">
+                        @{
+                            if (ViewBag.Downloads == "true")
+                            {
+                                <h3 class="NoRecord">No Record Found</h3>
+                            }
+                            else
+                            {
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="align-middle text-center">SR NO.</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MyDownloads", "Home",new {downloadTitleSort="title" , downloadindex=Request.QueryString["downloadindex"], downloadsearch=Request.QueryString["downloadsearch"], downloadCategorySort=Request.QueryString["downloadCategorySort"] })'">NOTE TITLE</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MyDownloads", "Home",new {downloadCategorySort="category" , downloadindex=Request.QueryString["downloadindex"], downloadsearch=Request.QueryString["downloadsearch"], downloadTitleSort=Request.QueryString["downloadTitleSort"] })'">CATEGORY</th>
+                                            <th scope="col" class="align-middle">BUYER</th>
+                                            <th scope="col" class="align-middle">SELL TYPE</th>
+                                            <th scope="col" class="align-middle">PRICE</th>
+                                            <th scope="col" class="align-middle">DOWNLOADED DATE/TIME</th>
+                                            <th scope="col" class="align-middle"></th>
+                                            <th scope="col" class="align-middle"></th>
+                                            <th scope="col" class="align-middle"></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int index = 1;}
+                                        @foreach (DownloadedNote mynote1 in Model.download)
+                                        {
+                                            <tr>
+                                                <td class="align-middle text-center">@index</td>
+                                                <td class="align-middle getpurple">@mynote1.NoteTitle</td>
+                                                <td class="align-middle">@mynote1.Category</td>
+                                                <td class="align-middle">@mynote1.BuyerEmail</td>
+                                                @{
+                                                    if (@mynote1.SellPrice == 0)
+                                                    {
+                                                        <td class="align-middle">Free</td>
+                                                        <td class="align-middle">$0</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="align-middle">Paid</td>
+                                                        <td class="align-middle">$@mynote1.SellPrice</td>
+                                                    }
+
+                                                }
+                                                <td class="align-middle">@mynote1.CreatedDate.Value.ToString("dd") @mynote1.CreatedDate.Value.ToString("MMM") @mynote1.CreatedDate.Value.ToString("yyyy"), @mynote1.CreatedDate.Value.ToString("T")</td>
+                                                <td class="align-middle">
+                                                            <a href="@Url.Action("ViewNotes","Home", new { id = @mynote1.Note})"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
+                                                    
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="dropdown">
+                                                        <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <img src="~/Content/img/home/dots.png" alt="view">
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                            <a class="dropdown-item" href="@Url.Action("DownloadNote","Home", new { BookID = mynote1.Note})">Download Notes</a>
+                                                            <a class="dropdown-item open-AddBookDialog" href="#" type="submit" data-toggle="modal" data-id="@mynote1.Note" data-target="#exampleModal">Add Reviews/Feedback</a>
+                                                            <a class="dropdown-item open-AddBookDialog" href="#" type="submit" data-toggle="modal" data-id="@mynote1.Note" data-target="#exampleModal1">Report as Inappropriate</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            index++;
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- Pagination -->
+    <!-- Pagination -->
+    <section id="pagination">
+        @Html.PagedListPager(Model.download, downloadindex => Url.Action("MyDownloads", "Home", new { downloadindex, downloadsearch = Request.QueryString["downloadsearch"], downloadTitleSort = Request.QueryString["downloadTitleSort"], downloadCategorySort = Request.QueryString["downloadCategorySort"] }), new PagedList.Mvc.PagedListRenderOptions
+        {
+        ContainerDivClasses = null,
+        LiElementClasses = new string[] { "page-item1" },
+        UlElementClasses = new string[] { "pagination justify-content-center" },
+        LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+        LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+        MaximumPageNumbersToDisplay = 5,
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+        })
+    </section>
+</div>
+<!-- Pagination ends -->

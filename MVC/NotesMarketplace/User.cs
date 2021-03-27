@@ -52,6 +52,9 @@ namespace NotesMarketplace
         [CompareAttribute("Passwords", ErrorMessage = "Password doesn't match.")]
         public string ConfirmPasswords { get; set; }
 
+        public bool RememberMe { get; set; }
+
+
         public bool IsEmailVerified { get; set; }
         public bool IsDetailSubmitted { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
@@ -59,6 +62,7 @@ namespace NotesMarketplace
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdminDetail> AdminDetails { get; set; }

@@ -80,8 +80,8 @@ C:\Project\NotesMarketplace\obj\Debug\NotesMarketplace.csproj.CoreCompileInputs.
 C:\Project\NotesMarketplace\obj\Debug\NotesMarketplace.csproj.CopyComplete
 C:\Project\NotesMarketplace\obj\Debug\NotesMarketplace.dll
 C:\Project\NotesMarketplace\obj\Debug\NotesMarketplace.pdb
-C:\Project\NotesMarketplace\obj\Debug\NotesMarketplace.csprojAssemblyReference.cache
 C:\Project\NotesMarketplace\bin\PagedList.dll
 C:\Project\NotesMarketplace\bin\PagedList.Mvc.dll
 C:\Project\NotesMarketplace\bin\PagedList.xml
 C:\Project\NotesMarketplace\bin\PagedList.Mvc.xml
+C:\Project\NotesMarketplace\obj\Debug\NotesMarketplace.csprojAssemblyReference.cache

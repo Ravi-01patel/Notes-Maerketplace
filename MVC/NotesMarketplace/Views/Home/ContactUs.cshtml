@@ -2,7 +2,16 @@
 
 @{
     ViewBag.Title = "Contact Us";
-    Layout = "~/Views/Shared/NonRegisterCommon.cshtml";
+    ViewBag.ContactUS_ActiveLink = "active";
+    if (@ViewBag.Header == "true")
+    {
+        Layout = "~/Views/Shared/RegistorCommon.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/NonRegisterCommon.cshtml";
+    }
+
 }
 
 

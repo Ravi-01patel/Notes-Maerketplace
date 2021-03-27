@@ -37,7 +37,7 @@ $(function () {
             $(".navbar-movable").addClass("white-nav-top");
 
             // Show dark logo
-            $(".navbar-movable .navbar-brand img").attr("src", "img/pre-login/Capture.PNG");
+            $(".navbar-movable .navbar-brand img").attr("src", "Content/img/pre-login/Capture.PNG");
 
         } else {
 
@@ -45,7 +45,7 @@ $(function () {
             $(".navbar-movable").removeClass("white-nav-top");
 
             // Show logo
-            $(".navbar-movable .navbar-brand img").attr("src", "img/pre-login/top-logo.png");
+            $(".navbar-movable .navbar-brand img").attr("src", "Content/img/pre-login/top-logo.png");
 
         }
     }
@@ -84,6 +84,19 @@ $(document).ready(function () {
         });
     }
 });
+/* ==================================
+            Modal Data Passing
+====================================*/
+$(document).ready(function () {
+    $(".open-AddBookDialog").click(function () {
+        $('#bookId1').val($(this).data('id'));
+        $('#bookId2').val($(this).data('id'));
+        //$("#addBookDialog").modal("show");
+        
+    });
+});
+
+
 $(".dropdownsubmit").click(function () {
     var ddlvalue = $("#categoryddl option:selected").val();
     if (ddlvalue == "Select Your category") {
@@ -91,6 +104,7 @@ $(".dropdownsubmit").click(function () {
     }
     
 });
+
 
 
 

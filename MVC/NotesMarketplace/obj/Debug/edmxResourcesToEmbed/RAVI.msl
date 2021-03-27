@@ -61,6 +61,8 @@
           <ScalarProperty Name="Attachment" ColumnName="Attachment" />
           <ScalarProperty Name="SellPrice" ColumnName="SellPrice" />
           <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="BuyerEmail" ColumnName="BuyerEmail" />
+          <ScalarProperty Name="BuyerMobile" ColumnName="BuyerMobile" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

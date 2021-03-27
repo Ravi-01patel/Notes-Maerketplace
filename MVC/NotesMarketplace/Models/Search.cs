@@ -10,24 +10,25 @@ namespace NotesMarketplace.Models
     {
         public int? searchindex { get; set; }
 
+        public IPagedList<NoteRating> search { get; set; }
+
+        public List<String> Type { get; set; }
+
+        public List<String> Category { get; set; }
+
+        public List<String> University { get; set; }
+
+        public List<String> Course{ get; set; }
+
+        public List<String> Country{ get; set; }
+
        
+        public string notesearch { get; set; }
 
-        public IPagedList<NoteDetail> search { get; set; }
+        
+        public string rating{ get; set; }
 
-        public List<ManageCTC> Category { get; set; }
-
-        public List<ManageCTC> Type { get; set; }
-
-        public List<ManageCTC> Country { get; set; }
-
-
-        public string notesearch {  get; set; }
-
-        public string typesort { get; set; }
-        public string categorysort{ get; set; }
-        public string universitysort { get; set; }
-        public string coursesort { get; set; }
-        public string countrysort { get; set; }
+        public int count { get; set; }
 
         
 

@@ -2,7 +2,15 @@
 
 @{
     ViewBag.Title = "FAQ";
-    Layout = "~/Views/Shared/NonRegisterCommon.cshtml";
+    ViewBag.FAQ_ActiveLink = "active";
+    if (@ViewBag.Header == "true")
+    {
+        Layout = "~/Views/Shared/RegistorCommon.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/NonRegisterCommon.cshtml";
+    }
 }
 
 <!-- Heading -->

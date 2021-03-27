@@ -1,0 +1,116 @@
+﻿@model NotesMarketplace.Models.Sold
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "My Sold Notes";
+    Layout = "~/Views/Shared/RegistorCommon.cshtml";
+}
+
+<!--My Sold Note -->
+
+
+<section id="dashboard-publish" class="mydownload-margin">
+    <div class="container">
+        <div class="row top-table">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <h3>My Sold Notes</h3>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="wrapper">
+                            <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="soldsearch" value="@Request.QueryString["soldsearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="soldindex" value=@Request.QueryString["soldindex"] />
+                            <input hidden name="soldTitleSort" value="@Request.QueryString["soldTitleSort"]" />
+                            <input hidden name="soldCategorySort" value="@Request.QueryString["soldCategorySort"]" />
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.Sold == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("SoldNotes", "Home",new {soldTitleSort="title" , soldindex=Request.QueryString["soldindex"], soldsearch=Request.QueryString["soldsearch"], soldCategorySort=Request.QueryString["soldCategorySort"] })'">NOTE TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("SoldNotes", "Home",new {soldCategorySort="category" , soldindex=Request.QueryString["soldindex"], soldsearch=Request.QueryString["soldsearch"], soldTitleSort=Request.QueryString["soldTitleSort"] })'">CATEGORY</th>
+                                        <th scope="col" class="align-middle">BUYER</th>
+                                        <th scope="col" class="align-middle">SELL TYPE</th>
+                                        <th scope="col" class="align-middle">PRICE</th>
+                                        <th scope="col" class="align-middle">DOWNLOADED DATE/TIME</th>
+                                        <th scope="col" class="align-middle"></th>
+                                        <th scope="col" class="align-middle"></th>
+                                        <th scope="col" class="align-middle"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (DownloadedNote mynote in Model.sold)
+                                    {
+                                        <tr>
+                                            <td class="align-middle text-center">@index</td>
+                                            <td class="align-middle getpurple">@mynote.NoteTitle</td>
+                                            <td class="align-middle">@mynote.Category</td>
+                                            <td class="align-middle">testing123@gmail.com</td>
+                                            <td class="align-middle">Paid</td>
+                                            <td class="align-middle">$250</td>
+                                            <td class="align-middle">@mynote.CreatedDate.Value.ToString("dd") @mynote.CreatedDate.Value.ToString("MMM") @mynote.CreatedDate.Value.ToString("yyyy"), @mynote.CreatedDate.Value.ToString("T")</td>
+                                            <td class="align-middle">
+                                                <a href="@Url.Action("ViewNotes","Home", new { id = @mynote.Note})"><img src="~/Content/img/Dashboard/eye.png" alt="view"></a>
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="dropdown">
+                                                    <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Content/img/home/dots.png" alt="view">
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="@Url.Action("DownloadNote","Home", new { BookID = @mynote.Note})">Download Notes</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        index++;
+                                    }
+                                    </tbody>
+                            </table>
+                        </div>
+                                        }
+                    }
+            </div>
+        </div>
+    </div>
+</section>
+<!--My Sold Note ENds -->
+<!-- Pagination -->
+<section id="pagination">
+@Html.PagedListPager(Model.sold, soldindex => Url.Action("SoldNotes", "Home", new { soldindex, soldsearch = Request.QueryString["soldsearch"], soldTitleSort = Request.QueryString["soldTitleSort"], soldCategorySort = Request.QueryString["soldCategorySort"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+<!-- Pagination Ends -->

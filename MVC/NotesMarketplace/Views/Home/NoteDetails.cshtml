@@ -1,7 +1,14 @@
 ﻿@model NotesMarketplace.Models.NoteDetails
 @{
-    ViewBag.Title = "Search Note";
-    Layout = "~/Views/Shared/HeaderFooterOnly.cshtml";
+    ViewBag.Title = "Notes Details";
+    if(@ViewBag.Header == "true")
+    {
+        Layout = "~/Views/Shared/RegistorCommon.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/NonRegisterCommon.cshtml";
+    }
 }
 
     <!-- Header Ends -->
@@ -16,69 +23,111 @@
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-7">
                             <div class="row docenter">
-                                <div class=" col-12 col-sm-5 col-md-5 col-lg-5">
-                                    <img class="img-fluid" src="~/Upload/Img/@Model.notedetail.BookPicture">
+                                <div class=" col-12 col-sm-5 col-md-5 col-lg-5 img-height">
+                                    @{
+                                        if (Model.notedetail.BookPicture != null)
+                                        {
+                                            <img class="img-fluid" src="~/Upload/BookPicture/@Model.notedetail.BookPicture">
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid" src="@ViewBag.BookImage">
+                                        }
+                                    }
+
                                 </div>
-                                <div class="col-12 col-sm-7 col-md-7 col-lg-7">
+                                <div class="col-12 col-sm-7 col-md-7 col-lg-7 description">
 
                                     <h2>@Model.notedetail.Title</h2>
                                     <h5>@Model.notedetail.NoteType</h5>
                                     <p class="text-left">@Model.notedetail.NotesDescription</p>
+                                    
                                     <div class="row">
                                         <div class="col-sm-12 col-md-7 col-lg-9">
-                                            @if (@Model.notedetail.SellPrice == 0)
+                                            @if (@Model.notedetail.SellPrice == 0 || ViewBag.UserSelf == "true")
                                             {
-                                                <button type="submit" class="btn text-uppercase text-center" id="mybtn" data-toggle="modal" data-target="#exampleModal"><b>Free</b></button>
+                                                if (ViewBag.UserSelf == "true")
+                                                {
+                                                    <button type="submit" class="btn text-uppercase text-center" id="mybtn" name="Free" value="Free" onclick="location.href = '@Url.Action("NoteDetails","Home", new { NoteDetails = Model , sellprice= Model.notedetail.SellPrice })'"><b>Download</b></button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn text-uppercase text-center" id="mybtn" name="Free" value="Free" onclick="location.href = '@Url.Action("NoteDetails","Home", new { NoteDetails = Model , sellprice= Model.notedetail.SellPrice })'"><b>Free</b></button>
+                                                }
+
+
 
                                             }
                                             else
                                             {
-                                                <button type="submit" class="btn text-uppercase text-center" id="mybtn" data-toggle="modal" data-target="#exampleModal"><b>download/$@Model.notedetail.SellPrice</b></button>
+                                                if (ViewBag.Button == "true")
+                                                {
+                                                    <button type="submit" disabled class="btn text-uppercase text-center" id="mybtn" data-toggle="modal" data-target="#exampleModal" name="Paid" value="Paid" onclick=" location.href= '@Url.Action("NoteDetails","Home", new { NoteDetails = Model ,sellprice= Model.notedetail.SellPrice})'"><b>Requested</b></button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn text-uppercase text-center" id="mybtn" data-toggle="modal" data-target="#exampleModal" name="Paid" value="Paid" onclick=" location.href= '@Url.Action("NoteDetails","Home", new { NoteDetails = Model ,sellprice= Model.notedetail.SellPrice})'"><b>download/$@Model.notedetail.SellPrice</b></button>
+                                                }
+
+
+
+
                                             }
 
 
                                             <!-- Thanks PopUp -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
+                                            @{
+                                                if (ViewBag.IsModel == "true")
+                                                {
+                                                    <script>
+                                                        function closeme() {
+                                                            var a = document.getElementById("exampleModal").style.display = "none";
+                                                        }
+                                                    </script>
+                                                    <div style="padding-right: 16px; display: block; opacity:100; overflow:visible;" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        @*<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">*@
+                                                        <div class="modal-dialog">
 
-                                                    <div class="row">
-                                                        <div class="col-xl-12">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <a type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <img src="img/Notes Details/close.png">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="model-data">
+                                                            <div class="row">
+                                                                <div class="col-xl-12">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <img src="~/Content/img/Notes Details/close.png" onclick="closeme()">
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="model-data">
 
-                                                                    <div class="model-head text-center">
-                                                                        <img class="img-fluid" src="img/Notes Details/SUCCESS.png">
-                                                                        <h2>Thank your for purchasing!</h2>
+                                                                            <div class="model-head text-center">
+                                                                                <img class="img-fluid" src="~/Content/img/Notes Details/SUCCESS.png">
+                                                                                <h2>Thank your for purchasing!</h2>
+                                                                            </div>
+                                                                            <div class="middel-content text-left">
+                                                                                <h3>Dear @ViewBag.Buyer,</h3>
+                                                                                <p class="para-1">As this is paid notes-you need to pay to seller @ViewBag.seller offline.We will send him an email that you want to download this note.He may contact you further for payment process completion.</p>
+                                                                                <p class="para-2">In Case, you have urgency,<br>Please contact us on +9195538863848.</p>
+                                                                                <p class="para-3">Once he recevies the payment and acknowledge us-Seleted notes you can see over my downloads tab for download.</p>
+                                                                                <p class="para-4">Have a good day.</p>
+                                                                            </div>
+                                                                        </div>
+
                                                                     </div>
-                                                                    <div class="middel-content text-left">
-                                                                        <h3>Dear Smith,</h3>
-                                                                        <p class="para-1">As this is paid notes-you need to pay to seller Rahil Shah offline.We will send him an email that you want to download this note.He may contact you further for payment process completion.</p>
-                                                                        <p class="para-2">In Case, you have urgency,<br>Please contact us on +9195538863848.</p>
-                                                                        <p class="para-3">Once he recevies the payment and acknowledge us-Seleted notes you can see over my downloads tab for download.</p>
-                                                                        <p class="para-4">Have a good day.</p>
-                                                                    </div>
                                                                 </div>
-
                                                             </div>
+
                                                         </div>
                                                     </div>
-
-                                                </div>
-                                            </div>
+                                                }
+                                            }
                                             <!-- Thanks PopUp Ends -->
                                         </div>
-                                    </div>
+                                                </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-5 margin-top">
                             <div class="row">
-                                <div class="col-5 col-sm-5 col-md-5 left-side-note">
+                                <div class="col-5 col-sm-5 col-md-5 col-xs-6 left-side-note">
                                     <h5>Institution:</h5>
                                     <h5>Country:</h5>
                                     <h5>Course Name:</h5>
@@ -88,27 +137,32 @@
                                     <h5>Approved Date:</h5>
                                     <h5>Rating:</h5>
                                 </div>
-                                <div class="col-7 col-sm-7 col-md-7 right-side-note text-right">
+                                <div class="col-7 col-sm-7 col-md-7 col-xs-6 right-side-note text-right">
                                     <h5>@Model.notedetail.InstitutionName</h5>
                                     <h5>@Model.notedetail.Country</h5>
                                     <h5>@Model.notedetail.Course</h5>
                                     <h5>@Model.notedetail.CourseCode</h5>
                                     <h5>@Model.notedetail.Professor</h5>
                                     <h5>@Model.notedetail.NumberOfPages</h5>
-                                    <h5>@Model.notedetail.ModifiedDate</h5>
+                                    <h5>@Model.notedetail.PublishedDate.Value.ToString("D")</h5>
                                     <div class="rate-fa">
+                                        @for (double i = 0; i < Model.rating; i++)
+                                        {
+                                            <i class="fa fa-star giverate"></i>
+                                        }
+                                        @for (double i = 0; i < (5 - Model.rating); i++)
+                                        {
+                                            <i class="fa fa-star-o"></i>
+                                        }
 
-                                        <i class="fa fa-star giverate"></i>
-                                        <i class="fa fa-star giverate"></i>
-                                        <i class="fa fa-star giverate"></i>
-                                        <i class="fa fa-star giverate"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="numofreview">100 Reviews</i>
+
+
+                                        <i class="numofreview">@Model.review Reviews</i>
                                     </div>
                                 </div>
                             </div>
                             <div class="inappropriate">
-                                <p>5 User marked this note as inappropriate</p>
+                                <p>@Model.inappropriat User marked this note as inappropriate</p>
                             </div>
                         </div>
                     </div>
@@ -156,101 +210,48 @@
                         <h3>Customer Reviews</h3>
                     </div>
                     <div class="customer-reviews">
-                        <div class="row">
-                            <div class="col-3 col-sm-3 col-md-2">
-                                <img src="img/home/customer-1.png" alt="user" class="img-fluid rounded-circle">
-                            </div>
-                            <div class="col-9 col-sm-9 col-md-10">
-                                <h5>Richard Brown</h5>
+                        @{
+                            foreach (Feedback fb in Model.feedback)
+                            {
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="rate-fa">
+                                    <div class="col-3 col-sm-3 col-md-2">
+                                        <img src="img/home/customer-1.png" alt="user" class="img-fluid rounded-circle">
+                                    </div>
+                                    <div class="col-9 col-sm-9 col-md-10">
+                                        <h5>Richard Brown</h5>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="rate-fa">
 
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star giverate"></i>
+                                                    <i class="fa fa-star giverate"></i>
+                                                    <i class="fa fa-star giverate"></i>
+                                                    <i class="fa fa-star giverate"></i>
+                                                    <i class="fa fa-star-o"></i>
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p>@fb.Comments</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, tenetur. Voluptatem impedit ipsum dignissimos enim reiciendis quam id pariatur </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <hr>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-3 col-sm-3 col-md-2">
-                                <img src="img/home/customer-2.png" alt="user" class="img-fluid rounded-circle">
-                            </div>
-                            <div class=" col-9 col-sm-9 col-md-10">
-                                <h5>Alice Ortiaz</h5>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="rate-fa">
-
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star-o"></i>
-
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <hr>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, tenetur. Voluptatem impedit ipsum dignissimos enim reiciendis quam id pariatur </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <hr>
-                                </div>
+                            }
+                        }
 
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-3 col-sm-3 col-md-2">
-                                <img src="img/home/customer-3.png" alt="user" class="img-fluid rounded-circle">
-                            </div>
-                            <div class="col-9 col-sm-9 col-md-10">
-                                <h5>Sera Passmore</h5>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="rate-fa">
-
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star giverate"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, tenetur. Voluptatem impedit ipsum dignissimos enim reiciendis quam id pariatur </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

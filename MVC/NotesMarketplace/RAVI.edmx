@@ -63,6 +63,8 @@
           <Property Name="Attachment" Type="varchar(max)" Nullable="false" />
           <Property Name="SellPrice" Type="int" Nullable="false" />
           <Property Name="Category" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BuyerEmail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BuyerMobile" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -189,7 +191,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Users" Type="int" Nullable="false" />
-          <Property Name="DOB" Type="datetime" />
+          <Property Name="DOB" Type="date" />
           <Property Name="Gender" Type="varchar" MaxLength="10" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ProfilePicture" Type="varchar(max)" />
@@ -541,6 +543,8 @@
           <Property Name="Attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SellPrice" Type="Int32" Nullable="false" />
           <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BuyerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BuyerMobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK__Downloade__Buyer__46E78A0C" FromRole="DownloadedNotes" ToRole="Users" />
           <NavigationProperty Name="User1" Relationship="Self.FK__Downloade__Users__45F365D3" FromRole="DownloadedNotes" ToRole="Users" />
           <NavigationProperty Name="NoteDetail" Relationship="Self.FK__Downloaded__Note__44FF419A" FromRole="DownloadedNotes" ToRole="NoteDetail" />
@@ -682,7 +686,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Users" Type="Int32" Nullable="false" />
-          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
           <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -1046,6 +1050,8 @@
                 <ScalarProperty Name="Attachment" ColumnName="Attachment" />
                 <ScalarProperty Name="SellPrice" ColumnName="SellPrice" />
                 <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="BuyerEmail" ColumnName="BuyerEmail" />
+                <ScalarProperty Name="BuyerMobile" ColumnName="BuyerMobile" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

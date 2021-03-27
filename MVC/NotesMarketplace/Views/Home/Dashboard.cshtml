@@ -2,8 +2,8 @@
 @using PagedList;
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Add Notes";
-
+    ViewBag.Title = "Dashboard";
+    ViewBag.Sell_ActiveLink = "active";
     Layout = "~/Views/Shared/RegistorCommon.cshtml";
 }
 
@@ -27,7 +27,7 @@
             <div class="col-md-6 col-sm-12 col-12 text-right">
                 <a href="#">
                     <!-- Profile Button -->
-                    <button type="button" id="mybtn" class="btn text-uppercase text-center"><b>Add Notes</b></button>
+                    <button type="button" id="mybtn" class="btn text-uppercase text-center" onclick="location.href = '@Url.Action("AddNotes","Home")'"><b>Add Notes</b></button>
                 </a>
             </div>
 
@@ -128,79 +128,100 @@
                 <h3>In Progress Notes</h3>
             </div>
             <div class="col-12 col-sm-12 col-md-8 col-lg-6">
-                <form>
-                    <div class="row justify-content-end">
-                        <div class="wrapper">
-                            <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
-                            <input name="progresssearch" value="@Model.progresssearch" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
-                            <input hidden name="progressindex" value=@Request.QueryString["progressindex"] />
-                            <input hidden name="ProgressProgressTitleSort" value="@Request.QueryString["ProgressTitleSort"]" />
-                            <input hidden name="ProgressCategorySort" value="@Request.QueryString["ProgressCategorySort"]" />
+                @{
+                    if (ViewBag.Progress == "true")
+                    {
 
-                            <input hidden name="publishindex" value=""/>
-                            <input hidden name="PrublishTitleSort" value="@Request.QueryString["PublishTitleSort"]" />
-                            <input hidden name="PublishCategorySort" value="@Request.QueryString["PublishCategorySort"]" />
+                    }
+                    else
+                    {
+                        <form>
+                            <div class="row justify-content-end">
+                                <div class="wrapper">
+                                    <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                                    <input name="progresssearch" value="@Request.QueryString["progresssearch"]" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
+                                    <input hidden name="progressindex" value=@Request.QueryString["progressindex"] />
+                                    <input hidden name="ProgressProgressTitleSort" value="@Request.QueryString["ProgressTitleSort"]" />
+                                    <input hidden name="ProgressCategorySort" value="@Request.QueryString["ProgressCategorySort"]" />
+                                    <input hidden name="publishsearch" value="@Request.QueryString["publishsearch"]" />
 
-                        </div>
-                        <div class="btn-merge">
-                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
-                        </div>
-                    </div>
-                </form>
+                                    <input hidden name="publishindex" value="@Request.QueryString["publishindex"]" />
+                                    <input hidden name="PrublishTitleSort" value="@Request.QueryString["PublishTitleSort"]" />
+                                    <input hidden name="PublishCategorySort" value="@Request.QueryString["PublishCategorySort"]" />
+
+                                </div>
+                                <div class="btn-merge">
+                                    <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                }
+
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="grid-table table-responsive-xl">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="align-middle">ADDED DATE</th>
-                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {ProgressTitleSort="title" , progressindex=Request.QueryString["progressindex"], progresssearch=Request.QueryString["progresssearch"], ProgressCategorySort=Request.QueryString["ProgressCategorySort"] })'">TITLE</th>
-                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {ProgressCategorySort="category" , progressindex=Request.QueryString["progressindex"], progresssearch=Request.QueryString["progresssearch"], ProgressTitleSort=Request.QueryString["ProgressTitleSort"] })'">CATEGORY</th>
-                                <th scope="col" class="align-middle">STATUS</th>
-                                <th scope="col" class="align-middle">ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                @{
+                    if (ViewBag.Progress == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle">ADDED DATE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home", new { ProgressTitleSort = "title", progressindex = Request.QueryString["progressindex"], progresssearch = Request.QueryString["progresssearch"], ProgressCategorySort = Request.QueryString["ProgressCategorySort"], publishindex = Request.QueryString["publishindex"], publishsearch = Request.QueryString["publishsearch"], PublishCategorySort = Request.QueryString["PublishCategorySort"], PublishTitleSort = Request.QueryString["PublishTitleSort"] })'">TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home", new { ProgressCategorySort = "category", progressindex = Request.QueryString["progressindex"], progresssearch = Request.QueryString["progresssearch"], ProgressTitleSort = Request.QueryString["ProgressTitleSort"], publishindex = Request.QueryString["publishindex"], publishsearch = Request.QueryString["publishsearch"], PublishCategorySort = Request.QueryString["PublishCategorySort"], PublishTitleSort = Request.QueryString["PublishTitleSort"] })'">CATEGORY</th>
+                                        <th scope="col" class="align-middle">STATUS</th>
+                                        <th scope="col" class="align-middle">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-                            @foreach (NoteDetail mynote in Model.progress)
-                            {
-                                <tr>
-                                    <td class="align-middle">@mynote.CreatedDate</td>
-                                    <td class="align-middle">@mynote.Title</td>
-                                    <td class="align-middle">@mynote.Category</td>
-                                    <td class="align-middle">Draft</td>
-
-                                    @if (mynote.NoteStatus == 1)
+                                    @foreach (NoteDetail mynote in Model.progress)
                                     {
-                                        <td class="align-middle">
-                                            <div class="row">
-                                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                                    <a href="#"><img src="~/Content/img/Dashboard/edit.png" alt="Edit"></a>
-                                                </div>
-                                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                                    <a href="#"><img src="~/Content/img/Dashboard/delete.png" alt="Delete"></a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td class="align-middle">
-                                            <div class="row text-center">
-                                                <div class="col-11 col-sm-11 col-md-9 col-lg-7">
-                                                    <a href="#"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    }
+                                        <tr>
+                                            <td class="align-middle">@mynote.CreatedDate.Value.ToString("d")</td>
+                                            <td class="align-middle">@mynote.Title</td>
+                                            <td class="align-middle">@mynote.Category</td>
+                                            <td class="align-middle">Draft</td>
 
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                            @if (mynote.NoteStatus == 1)
+                                            {
+                                                <td class="align-middle">
+                                                    <div class="row">
+                                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                                            <a href="@Url.Action("EditNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/edit.png" alt="Edit"></a>
+                                                        </div>
+                                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                                            <a href="@Url.Action("DeleteNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/delete.png" alt="Delete"></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle">
+                                                    <div class="row text-center">
+                                                        <div class="col-11 col-sm-11 col-md-9 col-lg-7">
+                                                            <a href="@Url.Action("ViewNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            }
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+
             </div>
 
 
@@ -210,7 +231,7 @@
 <!-- Dashboard Progress -->
 <!-- Pagination -->
 <section id="pagination">
-    @Html.PagedListPager(Model.progress, progressindex => Url.Action("Dashboard", "Home", new { progressindex, publishindex=Request.QueryString["publishindex"], progresssearch =Request.QueryString["progresssearch"], search_progress = Request.QueryString["search_progress"], field_2 = Request.QueryString["field_2"], search_progress_2 = Request.QueryString["search_progress_2"] }), new PagedList.Mvc.PagedListRenderOptions
+    @Html.PagedListPager(Model.progress, progressindex => Url.Action("Dashboard", "Home", new { progressindex, publishindex = Request.QueryString["publishindex"], progresssearch = Request.QueryString["progresssearch"], PublishTitleSort = Request.QueryString["PublishTitleSort"], PublishCategorySort = Request.QueryString["PublishCategorySort"], publishsearch = Request.QueryString["publishsearch"], ProgressCategorySort = Request.QueryString["ProgressCategorySort"], ProgressTitleSort = Request.QueryString["ProgressTitleSort"] }), new PagedList.Mvc.PagedListRenderOptions
 {
     ContainerDivClasses = null,
     LiElementClasses = new string[] { "page-item1" },
@@ -250,78 +271,102 @@
 <section id="dashboard-publish">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-6">
                 <h3>Published Notes</h3>
             </div>
-            <div class="col-md-6">
-                <div class="row justify-content-end">
-                    <div class="wrapper">
-                        <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
-                        <input name="publishshearch" value="@Model.publishsearch" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
-                        <input hidden name="publishindex" value=@Request.QueryString["publishindex"] />
-                        <input hidden name="PrublishTitleSort" value="@Request.QueryString["PublishTitleSort"]" />
-                        <input hidden name="PublishCategorySort" value="@Request.QueryString["PublishCategorySort"]" />
+            <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                @{
+                    if (ViewBag.Publish == "true")
+                    {
 
-                        <input hidden name="progressindex" value="" />
-                        <input hidden name="ProgressProgressTitleSort" value="@Request.QueryString["ProgressTitleSort"]" />
-                        <input hidden name="ProgressCategorySort" value="@Request.QueryString["ProgressCategorySort"]" />
+                    }
+                    else
+                    {
+                        <form>
+                            <div class="row justify-content-end">
+                                <div class="wrapper">
+                                    <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                                    <input name="publishsearch" value="@Request.QueryString["publishsearch"]" type="text" class="form-control search-bar InputEmail1" placeholder="Search">
+                                    <input hidden name="publishindex" value=@Request.QueryString["publishindex"] />
+                                    <input hidden name="PrublishTitleSort" value="@Request.QueryString["PublishTitleSort"]" />
+                                    <input hidden name="PublishCategorySort" value="@Request.QueryString["PublishCategorySort"]" />
+                                    <input hidden name="progresssearch" value="@Request.QueryString["progresssearch"]" />
+
+                                    <input hidden name="progressindex" value="@Request.QueryString["progressindex"]" />
+                                    <input hidden name="ProgressProgressTitleSort" value="@Request.QueryString["ProgressTitleSort"]" />
+                                    <input hidden name="ProgressCategorySort" value="@Request.QueryString["ProgressCategorySort"]" />
 
 
-                    </div>
-                    <div class="btn-merge">
-                        <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
-                    </div>
-                </div>
+                                </div>
+                                <div class="btn-merge">
+                                    <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                }
+
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="grid-table table-responsive-xl">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="align-middle">ADDED DATE</th>
-                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {PublishTitleSort="title" , progressindex=Request.QueryString["publishindex"], progresssearch=Request.QueryString["publishsearch"], ProgressCategorySort=Request.QueryString["PublishCategorySort"] })'">TITLE</th>
-                                <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {PublishCategorySort="category" , progressindex=Request.QueryString["publishindex"], progresssearch=Request.QueryString["publishsearch"], ProgressTitleSort=Request.QueryString["PublishTitleSort"] })'">CATEGORY</th>
-                                <th scope="col" class="align-middle">SELL TYPE</th>
-                                <th scope="col" class="align-middle">PRICE</th>
-                                <th scope="col" class="align-middle">ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (NoteDetail mynote1 in Model.published)
-                            {
-                            <tr>
-                                <td class="align-middle">@mynote1.CreatedDate</td>
-                                <td class="align-middle">@mynote1.Title</td>
-                                <td class="align-middle">@mynote1.Category</td>
-                                
-                                    @if (mynote1.SellPrice == 0)
+                @{
+                    if (ViewBag.Publish == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle">ADDED DATE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {PublishTitleSort="title" , publishindex=Request.QueryString["publishindex"], publishsearch=Request.QueryString["publishsearch"], PublishCategorySort=Request.QueryString["PublishCategorySort"] ,progressindex=Request.QueryString["progressindex"], progresssearch=Request.QueryString["progresssearch"], ProgressCategorySort=Request.QueryString["ProgressCategorySort"] , ProgressTitleSort=Request.QueryString["ProgressTitleSort"] })'">TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Home",new {PublishCategorySort="category" , publishindex=Request.QueryString["publishindex"], publishsearch=Request.QueryString["publishsearch"], PublishTitleSort=Request.QueryString["PublishTitleSort"] ,progressindex=Request.QueryString["progressindex"], progresssearch=Request.QueryString["progresssearch"], ProgressCategorySort=Request.QueryString["ProgressCategorySort"] , ProgressTitleSort=Request.QueryString["ProgressTitleSort"]})'">CATEGORY</th>
+                                        <th scope="col" class="align-middle">SELL TYPE</th>
+                                        <th scope="col" class="align-middle">PRICE</th>
+                                        <th scope="col" class="align-middle">ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (NoteDetail mynote1 in Model.published)
                                     {
-                                          <td class="align-middle">Free</td>
+                                        <tr>
+                                            <td class="align-middle">@mynote1.PublishedDate.Value.ToString("d")</td>
+                                            <td class="align-middle">@mynote1.Title</td>
+                                            <td class="align-middle">@mynote1.Category</td>
+
+                                            @if (mynote1.SellPrice == 0)
+                                            {
+                                                <td class="align-middle">Free</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle">Paid</td>
+                                            }
+
+
+                                            <td class="align-middle">@mynote1.SellPrice</td>
+                                            <td class="align-middle">
+                                                <div class="row text-center">
+                                                    <div class="col-11 col-sm-11 col-md-9 col-lg-7">
+                                                        <a href="@Url.Action("ViewNotes","Home", new { id = mynote1.Note})"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                        </tr>
                                     }
-                                    else
-                                    {
-                                          <td class="align-middle">Paid</td>
-                                        }
-                                 
-                                    
-                                    <td class="align-middle">@mynote1.SellPrice</td>
-                                    <td class="align-middle">
-                                        <div class="row text-center">
-                                            <div class="col-11 col-sm-11 col-md-9 col-lg-7">
-                                                <a href="#"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                            }
 
 
-                        </tbody>
-                    </table>
-                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+
+
             </div>
 
 
@@ -330,7 +375,7 @@
 </section>
 <!-- Pagination -->
 <section id="pagination">
-    @Html.PagedListPager(Model.published, publishindex => Url.Action("Dashboard", "Home", new {publishindex,progressindex=Request.QueryString["progressindex"], publishsearch = Request.QueryString["publishsearch"], progresssearch = Request.QueryString["searchprogresssearch"], field_2 = Request.QueryString["field_2"], search_progress_2 = Request.QueryString["search_progress_2"] }), new PagedList.Mvc.PagedListRenderOptions
+    @Html.PagedListPager(Model.published, publishindex => Url.Action("Dashboard", "Home", new { publishindex, progressindex = Request.QueryString["progressindex"], publishsearch = Request.QueryString["publishsearch"], progresssearch = Request.QueryString["progresssearch"], ProgressTitleSort = Request.QueryString["ProgressTitleSort"], ProgressCategorySort = Request.QueryString["ProgressCategorySort"], PublishCategorySort = Request.QueryString["PublishCategorySort"], PublishTitleSort = Request.QueryString["PublishTitleSort"] }), new PagedList.Mvc.PagedListRenderOptions
 {
     ContainerDivClasses = null,
     LiElementClasses = new string[] { "page-item1" },

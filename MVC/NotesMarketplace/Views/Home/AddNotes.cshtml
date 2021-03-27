@@ -37,21 +37,46 @@
                                     <label class="mylabel" for="InputEmail1">Category *</label>
                                     <div class="wrapper">
 
+
                                         <select name="Category" class="form-control inputselect">
                                             <option>Select Your category</option>
                                             @{
-                                                foreach (var item in ViewBag.Category)
+                                                if (ViewBag.Edit == "true")
                                                 {
-                                                    if (@item.CTC == 1)
+                                                    foreach (var item in ViewBag.Category)
                                                     {
-                                                        <option>@item.CTCValue</option>
-                                                    }
+                                                        if (@item.CTC == 1)
+                                                        {
+                                                            if (@item.CTCValue == Model.Category)
+                                                            {
+                                                                <option selected>@item.CTCValue</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option>@item.CTCValue</option>
+                                                            }
+                                                        }
 
+                                                    }
                                                 }
+                                                else
+                                                {
+                                                    foreach (var item in ViewBag.Category)
+                                                    {
+                                                        if (@item.CTC == 1)
+                                                        {
+                                                            <option>@item.CTCValue</option>
+                                                        }
+
+                                                    }
+                                                }
+
                                             }
-                                        <p class="field-validation-error">@ViewBag.Message</p>
-                                            @Html.ValidationMessageFor(x => x.Category)
+                                            
+
                                         </select>
+                                        <p class="field-validation-error">@ViewBag.Message</p>
+                                        @Html.ValidationMessageFor(x => x.Category)
 
                                     </div>
                                 </div>
@@ -106,15 +131,38 @@
                                     <!-- Drop down arrow icon -->
                                     <div class="wrapper">
                                         <select name="NoteType" class="form-control inputselect">
-                                            <option>Select Your category</option>
+                                            <option>Select Your type</option>
                                             @{
-                                                foreach (var item in ViewBag.Category)
+                                                if (ViewBag.Edit == "true")
                                                 {
-                                                    if (@item.CTC == 2)
+                                                    foreach (var item in ViewBag.Category)
                                                     {
-                                                        <option>@item.CTCValue</option>
-                                                    }
+                                                        if (@item.CTC == 2)
+                                                        {
+                                                            if (item.CTCValue== Model.NoteType)
+                                                            {
+                                                                <option selected>@item.CTCValue</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option>@item.CTCValue</option>
+                                                            }
 
+                                                        }
+
+                                                    }
+                                                }
+                                                else
+                                                {
+
+                                                    foreach (var item in ViewBag.Category)
+                                                    {
+                                                        if (@item.CTC == 2)
+                                                        {
+                                                            <option>@item.CTCValue</option>
+                                                        }
+
+                                                    }
                                                 }
                                             }
                                         </select>
@@ -176,14 +224,37 @@
                                         <select name="Country" class="form-control inputselect">
                                             <option>Select your country</option>
                                             @{
-                                                foreach (var item in ViewBag.Category)
+                                                if (ViewBag.Edit == "true")
                                                 {
-                                                    if (@item.CTC == 3)
+                                                    foreach (var item in ViewBag.Category)
                                                     {
-                                                        <option> @item.CTCValue</option>
-                                                    }
+                                                        if (@item.CTC == 3)
+                                                        {
+                                                            if (item.CTCValue == Model.Country)
+                                                            {
+                                                                <option selected> @item.CTCValue</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option> @item.CTCValue</option>
+                                                            }
 
+                                                        }
+
+                                                    }
                                                 }
+                                                else
+                                                {
+                                                    foreach (var item in ViewBag.Category)
+                                                    {
+                                                        if (@item.CTC == 3)
+                                                        {
+                                                            <option> @item.CTCValue</option>
+                                                        }
+
+                                                    }
+                                                }
+
                                             }
                                         </select>
 
@@ -311,7 +382,8 @@
 
                         <div class="form-group">
                             <label class="mylabel" for="InputEmail1">Sell Price *</label>
-                            <input name="SellPrice" readonly  type="text" id="sellprice" class="form-control InputEmail1" aria-describedby="emailHelp">
+                            @Html.TextBoxFor(x => x.SellPrice, new { @Type = "text",@id="sellprice", @class = "form-control InputEmail1", @placeholder = "Enter your professor name", @readonly = "readonly" })
+                            
                         </div>
 
                     </div>
@@ -328,6 +400,7 @@
                                     </div>
                                 </div>
                                 @Html.ValidationMessageFor(x=>x.Preview)
+                                <p class="field-validation-error">@ViewBag.Preview</p>
                                 @ViewBag.Exception
                             </div>
                         </div>
@@ -338,10 +411,10 @@
                 <!-- Login Button -->
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-6">
-                        <button type="submit" class="btn btn-primary btn-block login-btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                        <button type="submit" class="btn btn-primary btn-block login-btn text-uppercase text-center" id="mybtn" name="save" value="save"><b>save</b></button>
                     </div>
                     <div class="col-md-3 col-sm-6 col-6">
-                        <button type="submit" class="btn btn-primary btn-block login-btn text-uppercase text-center dropdownsumbit" id="mybtn"><b>Publish</b></button>
+                        <button type="submit" class="btn btn-primary btn-block login-btn text-uppercase text-center dropdownsumbit" id="mybtn" name="publish" value="publish"><b>Publish</b></button>
                     </div>
                 </div>
             </div>

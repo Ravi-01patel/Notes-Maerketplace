@@ -60,6 +60,8 @@
     <Property Name="Attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="SellPrice" Type="Int32" Nullable="false" />
     <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BuyerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BuyerMobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="User" Relationship="Self.FK__Downloade__Buyer__46E78A0C" FromRole="DownloadedNotes" ToRole="Users" />
     <NavigationProperty Name="User1" Relationship="Self.FK__Downloade__Users__45F365D3" FromRole="DownloadedNotes" ToRole="Users" />
     <NavigationProperty Name="NoteDetail" Relationship="Self.FK__Downloaded__Note__44FF419A" FromRole="DownloadedNotes" ToRole="NoteDetail" />
@@ -201,7 +203,7 @@
     </Key>
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Users" Type="Int32" Nullable="false" />
-    <Property Name="DOB" Type="DateTime" Precision="3" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
     <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />

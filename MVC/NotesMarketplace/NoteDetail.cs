@@ -68,6 +68,7 @@ namespace NotesMarketplace
 
         [RegularExpression(@"^[a-zA-Z][a-zA-Z\s]+$", ErrorMessage = "Use letters only please")]
         public string Professor { get; set; }
+
         public int SellPrice { get; set; }
 
         [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.pdf)$", ErrorMessage = "Only PDF files allowed.")]

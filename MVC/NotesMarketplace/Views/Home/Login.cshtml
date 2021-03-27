@@ -1,7 +1,7 @@
 ﻿@model NotesMarketplace.User
 
 @{
-    ViewBag.Title = "Login Page";
+    ViewBag.Title = "Login";
     Layout = "~/Views/Shared/MyAuth.cshtml";
 }
 
@@ -33,6 +33,12 @@
                         <div id="login-head" class="text-center">
                             <h2>Login</h2>
                             <p>Enter your email address and password to login</p>
+                            @{ 
+                                if(ViewBag.Message!=null)
+                                {
+                                    <p class="field-validation-error">@ViewBag.Message</p>
+                                }
+                            }
                         </div>
 
                         <!-- Form -->
@@ -55,7 +61,7 @@
 
                                         <!-- Forgot Password -->
                                         <div class="col-6 col-sm-6 clo-md-6  text-right">
-                                            <a href="@Url.Action("ForgotPassword","Home")"><label class="myforgotlabel"> Forgot Password?</label></a>
+                                            <a href="@Url.Action("ForgotPassword", "Home")"><label class="myforgotlabel"> Forgot Password?</label></a>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +76,7 @@
 
                                 <!-- Error Message -->
                                 @{
-                                    if (@ViewBag.Login=="false")
+                                    if (@ViewBag.Login == "false")
                                     {
                                         <div class="errormsg">
 
@@ -89,7 +95,8 @@
                             <!-- Remember Me -->
 
                             <div class="form-group form-check check1">
-                                <input type="checkbox" class="form-check-input exampleCheck">
+                                @Html.CheckBoxFor(m => m.RememberMe, new { @Type = "checkbox", @class = "form-check-input exampleCheck" });
+             
                                 <label class="checkbox1" for="exampleCheck">Remember Me</label>
                             </div>
 

@@ -10,15 +10,18 @@ namespace NotesMarketplace.Models
     {
         
        
-
-        public DownloadedNote buyerrequest { get; set; }
-
-        
-        public String phonenumber { get; set; }
-
-        public String emailid { set; get; }
+        public IPagedList<DownloadedNote> buyerrequest { get; set; }
 
         
-        
+        public int? buyerrequestindex { get; set; }
+
+        public String buyerrequestsearch { set; get; }
+
+        public string buyerrequestTitleSort { get; set; }
+
+        public string buyerrequestCategorySort { get; set; }
+
+
+
     }
 }

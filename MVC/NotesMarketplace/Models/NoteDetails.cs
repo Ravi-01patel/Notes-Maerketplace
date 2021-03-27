@@ -12,7 +12,15 @@ namespace NotesMarketplace.Models
 
         public NoteDetail notedetail { get; set; }
 
-        
-        
+        public List<Feedback> feedback { get; set; }
+
+        public int rating { get; set; }
+
+        public int inappropriat { get; set; }
+
+        public int review { get; set; }
+
+
+
     }
 }

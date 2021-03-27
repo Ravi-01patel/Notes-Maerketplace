@@ -710,18 +710,18 @@
             Upto 391
 ================================*/
  @media (max-width: 391px) {
-     #notesdetail-detail .left-side-note h5 {
-         font-size: 14px !important;
-
-     }
+    #notesdetail-detail .left-side-note h5 {
+        font-size: 12px;
+    }
+     
 
      #notesdetail-detail .right-side-note h5,
      .numofreview {
-         font-size: 14px !important;
+         font-size: 12px;
      }
 
      #notesdetail-preview .rate-fa i {
-         font-size: 13px;
+         font-size: 12px;
      }
 
      #dashboard-progress #mybtn,
@@ -731,6 +731,14 @@
  }
 
  @media (max-width: 359px) {
+    #notesdetail-detail .left-side-note h5 {
+        font-size: 12px !important;
+    }
+
+    #notesdetail-detail .right-side-note h5,
+    .numofreview {
+        font-size: 12px !important;
+    }
      #login-form .myforgotlabel {
          font-size: 10px;
          line-height: 12px;
@@ -744,6 +752,14 @@
 
  }
 @media (max-width: 310px) {
+    #notesdetail-detail .left-side-note h5 {
+        font-size: 12px !important;
+    }
+
+    #notesdetail-detail .right-side-note h5,
+    .numofreview {
+        font-size: 12px !important;
+    }
     .rate {
         position: absolute;
         float: center;

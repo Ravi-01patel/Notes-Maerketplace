@@ -53,30 +53,33 @@
                 <div class="collapse navbar-collapse justify-content-end default-header" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Search Notes</span></a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Login"><span>Search Your Note</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Sell Your Notes</span></a>
+                            <a class="nav-link" href="@Url.Action("SellNotes","Home")"><span>Sell Your Notes</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Buyer Requests</span></a>
+                            <a class="nav-link" @Url.Action("BuyerRequests","Home")><span>Buyer Requests</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>FAQ</span></a>
+                            <a class="nav-link" @Url.Action("FAQ","Home")><span>FAQ</span></a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span>Contact Us</span></a>
+                            <a class="nav-link" @Url.Action("ContactUs","Home")><span>Contact Us</span></a>
                         </li>
 
                         <li class="nav-item">
                             <div class="userprofile-user-icon">
+                                @{ 
+
+                                }
                                 <img src="~/Content/img/user-profile/team-1.jpg" class="img-fluid rounded-circle" alt="User">
                             </div>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="mynavbtn">Logout</a>
+                            <a class="nav-link" id="mynavbtn" @Url.Action("Login","Home")>Login</a>
                         </li>
                     </ul>
                 </div>
@@ -89,27 +92,27 @@
                     <div id="mobile-nav-content">
                         <ul class="navbar-nav">
                             <li>
-                                <a href="#"><span>Search Notes</span></a>
+                                <a @Url.Action("Search","Home")><span>Search Notes</span></a>
                             </li>
                             <li>
-                                <a href="#"><span>Sell Your Notes</span></a>
+                                <a @Url.Action("Sell","Home")h><span>Sell Your Notes</span></a>
                             </li>
                             <li>
-                                <a href="#"><span>Buyer Requests</span></a>
+                                <a @Url.Action("BuyerRequests","Home")><span>Buyer Requests</span></a>
                             </li>
                             <li>
-                                <a href="#"><span>FAQ</span></a>
-                            </li>
-
-                            <li>
-                                <a href="#"><span>Contact Us</span></a>
+                                <a @Url.Action("FAQ","Home")><span>FAQ</span></a>
                             </li>
 
                             <li>
-                                <img src="img/user-profile/team-1.jpg" class="img-fluid rounded-circle" alt="User">
+                                <a @Url.Action("ContactUs","Home")><span>Contact Us</span></a>
+                            </li>
+
+                            <li>
+                                <img src="~/Content/img/user-profile/team-1.jpg" class="img-fluid rounded-circle" alt="User">
                             </li>
                             <li>
-                                <button type="submit" class="btn text-center" id="mynavbtn">Logout</button>
+                                <button type="submit" class="btn text-center" id="mynavbtn" @Url.Action("Login","Home")>Login</button>
                             </li>
                         </ul>
                     </div>
