@@ -1,0 +1,128 @@
+﻿@model NotesMarketplace.Models.AdminMembers
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Members_ActiveLink = "active";
+    ViewBag.Title = "Members";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Member -->
+<div class="outerbox">
+    <section id="dashboard-publish" class="mydownload-margin">
+        <div class="container">
+            <div class="row top-table">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <h3>Members</h3>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <form>
+                        <div class="row justify-content-end extra-margin1">
+                            <div class="wrapper">
+                                <img src="~/Content/Admin/img/Dashboard/search.jpg" class="searchimage doup">
+                                <input type="text" name="MemberSearch" value="@Request.QueryString["MemberSearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                                <input hidden name="MemberIndex" value=@Request.QueryString["MemberIndex"] />
+                                <input hidden name="FirstNameSort" value="@Request.QueryString["FirstNameSort"]" />
+                                <input hidden name="LastNameSort" value="@Request.QueryString["lastNameSort"]" />
+                                <input hidden name="NotesUnderReviewSort" value="@Request.QueryString["NotesUnderReviewSort"]" />
+                                <input hidden name="PublishedNotesSort" value="@Request.QueryString["PublishedNotesSort"]" />
+                                <input hidden name="DownloadedNotesSort" value="@Request.QueryString["DownloadedNotesSort"]" />
+                                <input hidden name="TotalExpenseSort" value="@Request.QueryString["TotalExpenseSort"]" />
+                                <input hidden name="TotalEarningSort" value="@Request.QueryString["TotalEarningSort"]" />
+                            </div>
+                            <div class="btn-merge">
+                                <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @{
+                        if (ViewBag.Members == "true")
+                        {
+                            <h3 class="NoRecord">No Record Found</h3>
+                        }
+                        else
+                        {
+                            <div class="grid-table table-responsive-xl">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="align-middle text-center">SR NO.</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { FirstNameSort = "firstname",LastNameSort = Request.QueryString["LastNameSort"],DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"],PublishedNotesSort = Request.QueryString["PublishedNotesSort"],NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"],TotalExpenseSort = Request.QueryString["TotalExpenseSort"],TotalEarningSort = Request.QueryString["TotalEarningSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">FIRST NAME</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { LastNameSort ="lastname",FirstNameSort = Request.QueryString["FirstNameSort"],DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"],PublishedNotesSort = Request.QueryString["PublishedNotesSort"],NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"],TotalExpenseSort = Request.QueryString["TotalExpenseSort"],TotalEarningSort = Request.QueryString["TotalEarningSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">LAST NAME</th>
+                                            <th scope="col" class="align-middle">EMAIL</th>
+                                            <th scope="col" class="align-middle">JOINING DATE</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { NotesUnderReviewSort = "notesunderreview",FirstNameSort = Request.QueryString["FirstNameSort"],LastNameSort = Request.QueryString["LastNameSort"],DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"],PublishedNotesSort = Request.QueryString["PublishedNotesSort"],TotalExpenseSort = Request.QueryString["TotalExpenseSort"],TotalEarningSort = Request.QueryString["TotalEarningSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">UNDER REVIEW<br>NOTES</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { PublishedNotesSort = "publishednotes", FirstNameSort = Request.QueryString["FirstNameSort"],LastNameSort = Request.QueryString["LastNameSort"],DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"],NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"],TotalExpenseSort = Request.QueryString["TotalExpenseSort"],TotalEarningSort = Request.QueryString["TotalEarningSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">PUBLSIHED<br>NOTES</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { DownloadedNotesSort = "downloadenotes",FirstNameSort = Request.QueryString["FirstNameSort"],LastNameSort = Request.QueryString["LastNameSort"],PublishedNotesSort = Request.QueryString["PublishedNotesSort"],NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"],TotalExpenseSort = Request.QueryString["TotalExpenseSort"],TotalEarningSort = Request.QueryString["TotalEarningSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">DOWNLOADED<br>NOTES</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { TotalExpenseSort ="totalexpense",FirstNameSort = Request.QueryString["FirstNameSort"],LastNameSort = Request.QueryString["LastNameSort"],DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"],PublishedNotesSort = Request.QueryString["PublishedNotesSort"],NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"],TotalEarningSort = Request.QueryString["TotalEarningSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">TOTAL<br>EXPENSE</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Members", "Admin", new { TotalEarningSort = "totalearning",FirstNameSort = Request.QueryString["FirstNameSort"],LastNameSort = Request.QueryString["LastNameSort"],DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"],PublishedNotesSort = Request.QueryString["PublishedNotesSort"],NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"],TotalExpenseSort = Request.QueryString["TotalExpenseSort"],MemberSearch = Request.QueryString["MemberSearch"],MemberIndex = Request.QueryString["MemberIndex"] })'">TOTAL<br>EARNING</th>
+
+                                            <th scope="col" class="align-middle"> </th>
+                                            <th scope="col" class="align-middle"> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int index = 1;}
+                                        @foreach (User  User in Model.User)
+                                        {
+                                            <tr>
+                                                <td class="align-middle text-center">@index</td>
+                                                <td class="align-middle">@User.FirstName</td>
+                                                <td class="align-middle">@User.LastName</td>
+                                                <td class="align-middle">testing123@gmail.com</td>
+                                                <td class="align-middle">27-12-2020, 10:20</td>
+                                                <td class="align-middle getpurple">@User.NoteDetails.Where(m=>m.NoteStatus == 3 && m.IsActive).Count()</td>
+                                                <td class="align-middle getpurple">@User.NoteDetails.Where(m => m.NoteStatus == 4 && m.IsActive).Count()</td>
+                                                <td class="align-middle getpurple">@User.DownloadedNotes1.Where(m=>m.IsApproved).Count()</td>
+                                                <td class="align-middle getpurple">@User.DownloadedNotes1.Where(m=>m.IsApproved).Select(x=>x.SellPrice).Sum()</td>
+                                                <td class="align-middle getpurple">@User.DownloadedNotes.Where(m=>m.IsApproved).Select(x => x.SellPrice).Sum()</td>
+                                                <td class="align-middle">
+                                                    <div class="dropdown">
+                                                        <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <img src="~/Content/Admin/img/images/dots.png">
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                            <a class="dropdown-item" href="@Url.Action("ViewMemberDetail","Admin", new { id= User.Users})">View More Detail</a>
+                                                            <a class="dropdown-item" href="@Url.Action("DeactiveMember","Admin", new { id= User.Users})">Deactivate</a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            index++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- Member ends -->
+    <!-- Pagination -->
+    <!-- Spam Report Ends -->
+    <section id="pagination">
+        @Html.PagedListPager(Model.User, MemberIndex => Url.Action("Members", "Admin", new { MemberIndex, FirstNameSort = Request.QueryString["FirstNameSort"], LastNameSort = Request.QueryString["LastNameSort"], DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"], PublishedNotesSort = Request.QueryString["PublishedNotesSort"], NotesUnderReviewSort = Request.QueryString["NotesUnderReviewSort"], TotalExpenseSort = Request.QueryString["TotalExpenseSort"], TotalEarningSort = Request.QueryString["TotalEarningSort"], MemberSearch = Request.QueryString["MemberSearch"] }), new PagedList.Mvc.PagedListRenderOptions
+   {
+       ContainerDivClasses = null,
+       LiElementClasses = new string[] { "page-item1" },
+       UlElementClasses = new string[] { "pagination justify-content-center" },
+       LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+       LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+       MaximumPageNumbersToDisplay = 5,
+       DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+       DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+   })
+        <section id="pagination">
+            <!-- Pagination Ends -->
+</div>

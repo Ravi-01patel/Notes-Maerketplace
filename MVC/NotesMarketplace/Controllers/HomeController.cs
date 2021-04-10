@@ -117,58 +117,73 @@ namespace NotesMarketplace.Controllers
             }
             Response.Cookies.Add(cookie);
 
-            User LoginUser = db.Users.FirstOrDefault(m => m.EmailID == user.EmailID && m.Passwords == user.Passwords);
-            Session["User"] = LoginUser;
-            if (LoginUser.IsEmailVerified)
-            {
-                if (LoginUser != null)
-                {
+            User LoginUser = db.Users.FirstOrDefault(m => m.EmailID == user.EmailID && m.Passwords == user.Passwords && m.IsActive);
 
-                    ViewBag.Login = "true";
-                    if (!LoginUser.IsDetailSubmitted)
+            if(LoginUser!=null)
+            {
+                ViewBag.Login = "true";
+                if (LoginUser.IsEmailVerified)
+                {
+                    if (LoginUser.UserRole >= 2)
                     {
-                        return RedirectToAction("UserProfile", "Home");
+                        Session["User"] = LoginUser;
+                        return RedirectToAction("Dashboard", "Admin");
                     }
-                    else
+                    if (LoginUser.UserRole == 1)
                     {
                         
-                        return RedirectToAction(MyRoute, "Home");
+
+                            
+                            if (!LoginUser.IsDetailSubmitted)
+                            {
+                                Session["User"] = LoginUser;
+                                return RedirectToAction("UserProfile", "Home");
+                            }
+                            else
+                            {
+                                Session["User"] = LoginUser;
+                                return RedirectToAction(MyRoute, "Home");
+                            }
+                        
+                        
                     }
+
                 }
                 else
                 {
-                    ViewBag.Login = "false";
-                    return View();
-                }
+                    try
+                    {
 
+
+                        ViewBag.Message = "Please verify your email from registered email";
+                        MailMessage mm = new MailMessage("rajp30398@gmail.com", user.EmailID);
+                        mm.Subject = "Notes Marketplace Email-Verification";
+                        mm.Body = "Hello " + LoginUser.FirstName + " " + LoginUser.LastName + ",\n\nThank you for signing up with us. Please click on below link to verify your email address and to do login. \n\nhttps//https://localhost:44351/Home/EmailVerification/?id=" + LoginUser.Users + "\n\nRegards,\nNotes Marketplace";
+
+                        SmtpClient smtp = new SmtpClient();
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.Port = 587;
+                        smtp.UseDefaultCredentials = false;
+
+                        NetworkCredential nc = new NetworkCredential("rajp30398@gmail.com", "Apple0198");
+                        smtp.EnableSsl = true;
+                        smtp.Credentials = nc;
+                        smtp.Send(mm);
+                        return View();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
             }
             else
             {
-                try
-                {
 
-
-                    ViewBag.Message = "Please verify your email from registered email";
-                    MailMessage mm = new MailMessage("rajp30398@gmail.com", user.EmailID);
-                    mm.Subject = "Notes Marketplace Email-Verification";
-                    mm.Body = "Hello " + LoginUser.FirstName + " " + LoginUser.LastName + ",\n\nThank you for signing up with us. Please click on below link to verify your email address and to do login. \n\nhttps//https://localhost:44351/Home/EmailVerification/?id=" + LoginUser.Users + "\n\nRegards,\nNotes Marketplace";
-
-                    SmtpClient smtp = new SmtpClient();
-                    smtp.Host = "smtp.gmail.com";
-                    smtp.Port = 587;
-                    smtp.UseDefaultCredentials = false;
-
-                    NetworkCredential nc = new NetworkCredential("rajp30398@gmail.com", "Apple0198");
-                    smtp.EnableSsl = true;
-                    smtp.Credentials = nc;
-                    smtp.Send(mm);
-                    return View();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+                ViewBag.Login = "false";
+                return View(user);
             }
+            
 
             return View();
 
@@ -191,9 +206,13 @@ namespace NotesMarketplace.Controllers
             User user2 = db.Users.FirstOrDefault(m => m.Users == id);
             user2.IsEmailVerified = true;
             user2.ConfirmPasswords = user2.Passwords;
+            Statistic stat = new Statistic();
+            stat.Users = user2.Users;
+            db.Statistics.Add(stat);
             db.SaveChanges();
             Session["User"] = user2;
             Session["id"] = null;
+            
             if (user2.IsDetailSubmitted)
             {
                 return RedirectToAction("Home", "Home");
@@ -215,19 +234,21 @@ namespace NotesMarketplace.Controllers
             if (user2.IsDetailSubmitted == true)
             {
                 UserProfileDetail userprofiledetail = db.UserProfileDetails.FirstOrDefault(m => m.Users == user2.Users);
-                if (userprofiledetail != null)
+                if (userprofiledetail.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofiledetail.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
                 userprofiledetail.User = user2;
                 ViewBag.Name = userprofiledetail.ProfilePicture;
                 string[] MobileNumber = userprofiledetail.PhoneNumber.Split(' ');
                 ViewBag.CountryCode = MobileNumber[0];
+                userprofiledetail.DOB = userprofiledetail.DOB;
                 userprofiledetail.Number = MobileNumber[1];
                 ViewBag.Country = userprofiledetail.Country;
                 ViewBag.Gender = userprofiledetail.Gender;
@@ -236,7 +257,7 @@ namespace NotesMarketplace.Controllers
             else
             {
                 UserProfileDetail userProfileDetail = new UserProfileDetail();
-                ViewBag.ProfilePic = "~/Upload/Img/";
+                ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 userProfileDetail.User = user2;
                 return View(userProfileDetail);
             }
@@ -290,6 +311,7 @@ namespace NotesMarketplace.Controllers
                     UserProfile2.City = UserProfile.City;
                     UserProfile2.States = UserProfile.States;
                     UserProfile2.ZipCode = UserProfile.ZipCode;
+                    UserProfile2.IsActive = true;
                     if (UserProfile.Country == null)
                     {
                         ViewBag.CountryMessage = "This is required field";
@@ -336,8 +358,10 @@ namespace NotesMarketplace.Controllers
                         user.LastName = UserProfile.User.LastName;
                         user.ConfirmPasswords = user.Passwords;
                         UserProfile.User = user;
+                        UserProfile.IsActive = true;
                         UserProfile.ProfilePic = null;
-                        UserProfile.ModifiedDate = DateTime.Now.Date;
+                        UserProfile.ModifiedDate = DateTime.Now;
+                        UserProfile.User.ModifiedDate = DateTime.Now.Date;
                         db.UserProfileDetails.Add(UserProfile);
 
                         db.SaveChanges();
@@ -415,14 +439,14 @@ namespace NotesMarketplace.Controllers
             {
                 ViewBag.Header = "true";
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -472,14 +496,14 @@ namespace NotesMarketplace.Controllers
             {
                 ViewBag.Header = "true";
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -497,15 +521,15 @@ namespace NotesMarketplace.Controllers
             ViewBag.Category = db.ManageCTCs;
             User user = Session["User"] as User;
 
-            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == 35);
-            if (userprofile != null)
+            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
+            if (userprofile.ProfilePicture != null)
             {
 
                 ViewBag.ProfilePic = userprofile.ProfilePicture;
             }
             else
             {
-                ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
             }
             int id = Convert.ToInt32(Session["EditId"]);
             if (id != 0)
@@ -529,7 +553,7 @@ namespace NotesMarketplace.Controllers
             if (note.Category.Equals("Select Your category"))
             {
 
-                ViewBag.Message = "Please select category";
+                ViewBag.CategoryError = "Please select category";
                 return View(note);
 
             }
@@ -551,7 +575,7 @@ namespace NotesMarketplace.Controllers
                         var NotePDFExt = Path.GetExtension(NotePDF.FileName);
                         var NotePDFName = DateTime.Now.ToString("G").Replace(" ", "f").Replace("-", "s").Replace(":", "a") + NotePDFExt;
                         // store the file inside ~/App_Data/uploads folder
-                        var NotePDFpath = Path.Combine(Server.MapPath("~/Upload/Pdf/"), NotePDFName);
+                        var NotePDFpath = Path.Combine(Server.MapPath("~/Upload/NoteAttchment/"), NotePDFName);
                         NotePDF.SaveAs(NotePDFpath);
                         note.NoteAttachment = NotePDFName;
                         note.CreatedDate = DateTime.Now;
@@ -564,7 +588,7 @@ namespace NotesMarketplace.Controllers
                                 var PreviewPDFExt = Path.GetExtension(Preview.FileName);
                                 var PreviewPDFName = DateTime.Now.ToString("G").Replace(" ", "f").Replace("-", "s").Replace(":", "a") + PreviewPDFExt;
                                 // store the file inside ~/App_Data/uploads folder
-                                var PreviewPDFpath = Path.Combine(Server.MapPath("~/Upload/Pdf/"), PreviewPDFName);
+                                var PreviewPDFpath = Path.Combine(Server.MapPath("~/Upload/NotePreview/"), PreviewPDFName);
                                 NotePDF.SaveAs(PreviewPDFpath);
                                 note.NotePreview = PreviewPDFName;
                             }
@@ -576,11 +600,9 @@ namespace NotesMarketplace.Controllers
                         }
                         
 
-                        note.NoteSize = (NotePDF.ContentLength) / (1024 * 1024);
+                        note.NoteSize = Convert.ToInt32((NotePDF.ContentLength) / (1024 * 1024));
                         note.Users = user.Users;
                         note.IsActive = true;
-
-                        note.NoteSize = (note.NotePDF.ContentLength/1024/1024);
                         note.Preview = null;
                         note.NotePDF = null;
                         note.DisplayPicture = null;
@@ -598,14 +620,14 @@ namespace NotesMarketplace.Controllers
                                     System.IO.File.Delete("~/Upload/BookPicture/" + EditNote.BookPicture);
 
                                 }
-                                if (System.IO.File.Exists("~/Upload/Pdf/" + EditNote.NoteAttachment))
+                                if (System.IO.File.Exists("~/Upload/NoteAttchment/" + EditNote.NoteAttachment))
                                 {
-                                    System.IO.File.Delete("~/Upload/Pdf/" + EditNote.NoteAttachment);
+                                    System.IO.File.Delete("~/Upload/NoteAttchment/" + EditNote.NoteAttachment);
 
                                 }
-                                if (System.IO.File.Exists("~/Upload/Pdf/" + EditNote.Preview))
+                                if (System.IO.File.Exists("~/Upload/NotePreview/" + EditNote.Preview))
                                 {
-                                    System.IO.File.Delete("~/Upload/Pdf/" + EditNote.Preview);
+                                    System.IO.File.Delete("~/Upload/NotePreview/" + EditNote.Preview);
 
                                 }
 
@@ -655,14 +677,14 @@ namespace NotesMarketplace.Controllers
                                     System.IO.File.Delete("~/Upload/Img/" + EditNote.BookPicture);
 
                                 }
-                                if (System.IO.File.Exists("~/Upload/Pdf/" + EditNote.NoteAttachment))
+                                if (System.IO.File.Exists("~/Upload/NoteAttchment/" + EditNote.NoteAttachment))
                                 {
-                                    System.IO.File.Delete("~/Upload/Pdf/" + EditNote.NoteAttachment);
+                                    System.IO.File.Delete("~/Upload/NoteAttchment/" + EditNote.NoteAttachment);
 
                                 }
-                                if (System.IO.File.Exists("~/Upload/Pdf/" + EditNote.Preview))
+                                if (System.IO.File.Exists("~/Upload/NotePreview/" + EditNote.Preview))
                                 {
-                                    System.IO.File.Delete("~/Upload/Pdf/" + EditNote.Preview);
+                                    System.IO.File.Delete("~/Upload/NotePreview/" + EditNote.Preview);
 
                                 }
                                 MailMessage mm = new MailMessage("rajp30398@gmail.com", "rajp30398@gmail.com");
@@ -741,15 +763,15 @@ namespace NotesMarketplace.Controllers
             MyRoute = "Dashboard";
             User user = Session["User"] as User;
 
-            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == 35);
-            if (userprofile != null)
+            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
+            if (userprofile.ProfilePicture != null)
             {
 
                 ViewBag.ProfilePic = userprofile.ProfilePicture;
             }
             else
             {
-                ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                
             }
             MyDashboard myDashboard = new MyDashboard();
             List<NoteDetail> progresslist = db.NoteDetails.Where(m => m.IsActive && m.Users == user.Users).OrderByDescending(m => m.CreatedDate).ToList();
@@ -777,7 +799,7 @@ namespace NotesMarketplace.Controllers
 
 
 
-            List<NoteDetail> publishlist = db.NoteDetails.Where(m => m.NoteStatus == 3 && m.IsActive && m.Users == user.Users).OrderByDescending(m => m.PublishedDate).ToList();
+            List<NoteDetail> publishlist = db.NoteDetails.Where(m => m.NoteStatus == 4 && m.IsActive && m.Users == user.Users).OrderByDescending(m => m.PublishedDate).ToList();
             if (!String.IsNullOrEmpty(dashboard.publishsearch))
             {
                 publishlist = publishlist.Where(m => m.Title.ToLower().Contains(dashboard.publishsearch.ToLower()) || m.Category.ToLower().Contains(dashboard.publishsearch.ToLower())).ToList();
@@ -806,16 +828,12 @@ namespace NotesMarketplace.Controllers
             }
             myDashboard.progress = progresslist.ToPagedList(dashboard.progressindex ?? 1, 5);
             myDashboard.published = publishlist.ToPagedList(dashboard.publishindex ?? 1, 5);
-            Statistic mystatistic = new Statistic();
 
-
-
-
-
-            mystatistic = db.Statistics.FirstOrDefault(m => m.Users == 35);
-            myDashboard.mystatistic = mystatistic;
-            //myDashboard.progresssearch = dashboard.progresssearch;
-
+            myDashboard.BuyerRequest = user.DownloadedNotes1.Where(m=>m.IsApproved==false).Count();
+            myDashboard.MyDownload = user.DownloadedNotes.Where(m=>m.IsApproved).Count();
+            myDashboard.TotalEarning = user.DownloadedNotes1.Where(m=>m.IsApproved).Select(x=>x.SellPrice).Sum();
+            myDashboard.NumberOfSold = user.DownloadedNotes1.Where(m=>m.IsApproved).Count();
+            myDashboard.MyRejected =  user.NoteDetails.Where(m=>m.NoteStatus==5 || m.NoteStatus == 6).Count();
             return View(myDashboard);
         }
 
@@ -828,14 +846,14 @@ namespace NotesMarketplace.Controllers
             {
                 ViewBag.Header = "true";
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -880,14 +898,14 @@ namespace NotesMarketplace.Controllers
             {
                 ViewBag.Header = "true";
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -931,14 +949,14 @@ namespace NotesMarketplace.Controllers
             {
                 ViewBag.Header = "true";
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -958,7 +976,7 @@ namespace NotesMarketplace.Controllers
             {
                 if (user != null)
                 {
-                    return RedirectToAction("AddNotes", "Home");
+                    return RedirectToAction("Dashboard", "Home");
                 }
                 else
                 {
@@ -989,14 +1007,14 @@ namespace NotesMarketplace.Controllers
             {
                 ViewBag.Header = "true";
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -1006,7 +1024,7 @@ namespace NotesMarketplace.Controllers
             }
 
 
-            List<NoteDetail> MyNote = db.NoteDetails.Where(m => m.NoteStatus == 3 && m.IsActive).OrderByDescending(m => m.CreatedDate).ToList();
+            List<NoteDetail> MyNote = db.NoteDetails.Where(m => m.NoteStatus == 4 && m.IsActive).OrderByDescending(m => m.CreatedDate).ToList();
             MySearch.Category = MyNote.Select(m => m.Category).Distinct().ToList();
             MySearch.Type = MyNote.Select(m => m.NoteType).Distinct().ToList();
             MySearch.University = MyNote.Select(m => m.InstitutionName).Distinct().ToList();
@@ -1093,14 +1111,14 @@ namespace NotesMarketplace.Controllers
                 ViewBag.Header = "true";
 
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -1129,7 +1147,20 @@ namespace NotesMarketplace.Controllers
                 }
             }
 
-            note.feedback = db.Feedbacks.Where(m=>m.IsActive==true && m.Note==51).ToList();
+            List<UserFeedback> userFeedbacks = new List<UserFeedback>();
+            List<Feedback> Feedback = db.Feedbacks.Where(m=>m.Note == BookId).ToList();
+            foreach(Feedback fb in Feedback)
+            {
+                UserFeedback users = new UserFeedback();
+                User user1 = db.Users.FirstOrDefault(m=>m.Users == fb.Users && m.IsActive);
+                users.UserName = user1.FirstName+" "+user1.LastName;
+                UserProfileDetail up = db.UserProfileDetails.FirstOrDefault(m=>m.Users == fb.Users && m.IsActive);
+                users.UserImage = up.ProfilePicture;
+                users.Rating = fb.Review;
+                users.Comment = fb.Comments;
+                userFeedbacks.Add(users);
+            }
+            note.feedback = userFeedbacks;
             if (user != null)
             {
                 bool IsEntry = db.DownloadedNotes.Any(m => m.Note == notedetail.Note && m.Buyer == user.Users);
@@ -1170,7 +1201,7 @@ namespace NotesMarketplace.Controllers
 
                 if (user.Users == notedetail.Users)
                 {
-                    string path = "C:/Project/NotesMarketplace/Upload/Pdf/" + notedetail.NoteAttachment;
+                    string path = "C:/Project/NotesMarketplace/Upload/NoteAttchment/" + notedetail.NoteAttachment;
                     return RedirectToAction("DownloadFile", "Home", new { filename = path });
                 }
                 else
@@ -1181,7 +1212,7 @@ namespace NotesMarketplace.Controllers
                         bool IsEntry = db.DownloadedNotes.Any(m => m.Note == notedetail.Note && m.Buyer == user.Users);
                         if (IsEntry)
                         {
-                            string path = "C:/Project/NotesMarketplace/Upload/Pdf/" + notedetail.NoteAttachment;
+                            string path = "C:/Project/NotesMarketplace/Upload/NoteAttchment/" + notedetail.NoteAttachment;
                             return RedirectToAction("DownloadFile", "Home", new { filename = path });
                         }
                         else
@@ -1198,11 +1229,12 @@ namespace NotesMarketplace.Controllers
                             downloadnote.SellPrice = notedetail.SellPrice;
                             downloadnote.Category = notedetail.Category;
                             downloadnote.BuyerEmail = user.EmailID;
+                            downloadnote.AttachmentSize = notedetail.NoteSize;
                             UserProfileDetail userProfile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
                             downloadnote.BuyerMobile = userProfile.PhoneNumber;
                             db.DownloadedNotes.Add(downloadnote);
                             db.SaveChanges();
-                            string path = "C:/Project/NotesMarketplace/Upload/Pdf/" + notedetail.NoteAttachment;
+                            string path = "C:/Project/NotesMarketplace/Upload/NoteAttchment/" + notedetail.NoteAttachment;
                             return RedirectToAction("DownloadFile", "Home", new { filename = path });
                         }
 
@@ -1215,7 +1247,7 @@ namespace NotesMarketplace.Controllers
                         {
                             if (IsPayment)
                             {
-                                string path = "C:/Project/NotesMarketplace/Upload/Pdf/" + notedetail.NoteAttachment;
+                                string path = "C:/Project/NotesMarketplace/Upload/NoteAttchment/" + notedetail.NoteAttachment;
                                 return RedirectToAction("DownloadFile", "Home", new { filename = path });
                             }
                             else
@@ -1239,6 +1271,7 @@ namespace NotesMarketplace.Controllers
                             downloadnote.SellPrice = notedetail.SellPrice;
                             downloadnote.Category = notedetail.Category;
                             downloadnote.BuyerEmail = user.EmailID;
+                            downloadnote.AttachmentSize = notedetail.NoteSize;
                             UserProfileDetail userProfile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
                             downloadnote.BuyerMobile = userProfile.PhoneNumber;
                             db.DownloadedNotes.Add(downloadnote);
@@ -1279,14 +1312,14 @@ namespace NotesMarketplace.Controllers
                 ViewBag.Header = "true";
 
                 var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
-                if (userprofile != null)
+                if (userprofile.ProfilePicture != null)
                 {
 
                     ViewBag.ProfilePic = userprofile.ProfilePicture;
                 }
                 else
                 {
-                    ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                    ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
                 }
             }
             else
@@ -1323,11 +1356,11 @@ namespace NotesMarketplace.Controllers
             MyRoute = "Dashboard";
             User user = Session["User"] as User;
 
-            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == 35);
-            if (userprofile != null)
+            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
+            if (userprofile.ProfilePicture != null)
             {
 
-                ViewBag.ProfilePic = userprofile.ProfilePicture;
+                ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
             }
             else
             {
@@ -1368,15 +1401,15 @@ namespace NotesMarketplace.Controllers
             MyRoute = "Dashboard";
             User user = Session["User"] as User;
 
-            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == 35);
-            if (userprofile != null)
+            var userprofile = db.UserProfileDetails.FirstOrDefault(m => m.Users == user.Users);
+            if (userprofile.ProfilePicture != null)
             {
 
                 ViewBag.ProfilePic = userprofile.ProfilePicture;
             }
             else
             {
-                ViewBag.ProfilePic = "~/Content/img/DefaultUserImage.png";
+                ViewBag.ProfilePic = db.SystemConfigurations.FirstOrDefault(m => m.ConfigId == 1).DefaultProfilePicture;
             }
             Sold MySold = new Sold();
             List<DownloadedNote> soldlist = db.DownloadedNotes.Where(m => m.IsActive && m.Users == user.Users && m.IsApproved == true).OrderByDescending(m => m.ModifiedDate).ToList();
@@ -1573,7 +1606,7 @@ namespace NotesMarketplace.Controllers
                     spam.CreatedDate = DateTime.Now;
                     NoteDetail note = db.NoteDetails.FirstOrDefault(m=>m.Note== id && m.IsActive);
                     User seller = db.Users.FirstOrDefault(m=>m.Users==note.Users && m.IsActive);
-                    db.SpamReports.Add(spam); MailMessage mm = new MailMessage("rajp30398@gmail.com", seller.EmailID);
+                    db.SpamReports.Add(spam); MailMessage mm = new MailMessage("rajp30398@gmail.com", "rajp30398@gmail.com");
                     mm.Subject = user.FirstName +" "+user.LastName+" Reported an issue for "+note.Title;
                     mm.Body = "Hello Admins,\n\nWe want to inform you that, "+user.FirstName+" "+user.LastName+" Reported an issue for "+seller.FirstName+" "+seller.LastName+"’s Note with title "+note.Title+". Please look at the notes and take required actions.\n\nRegards,\nNotes Marketplace";
 

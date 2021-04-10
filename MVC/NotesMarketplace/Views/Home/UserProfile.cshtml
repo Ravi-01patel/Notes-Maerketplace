@@ -62,7 +62,6 @@
                                 <div class="form-group">
                                     <label class="mylabel" for="InputEmail1">Email*</label>
 
-                                    <a href="~/Views/Home/UserProfile.cshtml">~/Views/Home/UserProfile.cshtml</a>
                                     @Html.TextBoxFor(x => x.User.EmailID, new { @type = "email", @placeholder = "Enter your Email Address", @class = "form-control InputEmail1", @readonly = "readonly" })
                                     @Html.ValidationMessageFor(x => x.User.EmailID)
                                 </div>
@@ -127,31 +126,37 @@
                                                 <div class="marginright">
 
                                                     <select name="CountryCode" class="form-control inputselect">
-
-                                                        @{
-                                                            foreach (var item in ViewBag.Category)
-                                                            {
-                                                                if (@item.CTC == 3)
+                                                        @if (ViewBag.Category != null)
+                                                        {
+                                                           
+                                                                foreach (var item in ViewBag.Category)
                                                                 {
-                                                                    if (ViewBag.CountryCode != null)
+                                                                    if (@item.CTC == 3)
                                                                     {
-                                                                        if (ViewBag.CountryCode == ("+" + item.CountryCode))
+                                                                        if (ViewBag.CountryCode != null)
                                                                         {
-                                                                            <option selected>@item.CountryCode</option>
+                                                                            if (ViewBag.CountryCode == ("+" + item.CountryCode))
+                                                                            {
+                                                                                <option selected>@item.CountryCode</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option>@item.CountryCode</option>
+                                                                            }
                                                                         }
                                                                         else
                                                                         {
                                                                             <option>@item.CountryCode</option>
                                                                         }
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <option>@item.CountryCode</option>
+
                                                                     }
 
-                                                                }
-
+                                                                
                                                             }
+                                                        }
+                                                        else
+                                                        {
+                                                            <option>+91</option>
                                                         }
 
 

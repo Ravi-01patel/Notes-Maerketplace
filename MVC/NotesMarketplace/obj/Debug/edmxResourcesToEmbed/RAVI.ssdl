@@ -4,26 +4,11 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="int" Nullable="false" />
-    <Property Name="Users" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Users" Type="int" Nullable="false" />
     <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
     <Property Name="ProfilePicture" Type="varchar(max)" />
-    <Property Name="SecondaryEmail" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="ModifiedDate" Type="datetime" />
-    <Property Name="ModifiedBy" Type="int" />
-    <Property Name="IsActive" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ContactUs">
-    <Key>
-      <PropertyRef Name="CUId" />
-    </Key>
-    <Property Name="CUId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="EmailID" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Subjects" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="Comments" Type="varchar(max)" Nullable="false" />
-    <Property Name="CreatedDate" Type="datetime" />
-    <Property Name="CreatedBy" Type="int" />
+    <Property Name="SecondaryEmail" Type="varchar" MaxLength="100" />
     <Property Name="ModifiedDate" Type="datetime" />
     <Property Name="ModifiedBy" Type="int" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -60,6 +45,7 @@
     <Property Name="Category" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="BuyerEmail" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="BuyerMobile" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="AttachmentSize" Type="int" />
   </EntityType>
   <EntityType Name="Feedback">
     <Key>
@@ -172,9 +158,9 @@
     <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="DefaultProfilePicture" Type="varchar(max)" Nullable="false" />
     <Property Name="DefaultNotePreview" Type="varchar(max)" Nullable="false" />
-    <Property Name="FacebookUrl" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="TwitterUrl" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="LinkedInUrl" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FacebookUrl" Type="varchar" MaxLength="50" />
+    <Property Name="TwitterUrl" Type="varchar" MaxLength="50" />
+    <Property Name="LinkedInUrl" Type="varchar" MaxLength="50" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="CreatedBy" Type="int" />
     <Property Name="ModifiedDate" Type="datetime" />
@@ -403,7 +389,6 @@
   </Association>
   <EntityContainer Name="NotesMarketplaceModelStoreContainer">
     <EntitySet Name="AdminDetail" EntityType="Self.AdminDetail" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CTC" EntityType="Self.CTC" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DownloadedNotes" EntityType="Self.DownloadedNotes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />

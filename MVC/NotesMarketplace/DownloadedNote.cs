@@ -30,6 +30,7 @@ namespace NotesMarketplace
         public string Category { get; set; }
         public string BuyerEmail { get; set; }
         public string BuyerMobile { get; set; }
+        public Nullable<int> AttachmentSize { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

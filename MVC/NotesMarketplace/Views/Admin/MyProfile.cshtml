@@ -1,0 +1,170 @@
+﻿@model NotesMarketplace.AdminDetail
+@{
+    ViewBag.Title = "My Profile";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+
+<!-- My Profile -->
+<form class="user-details-form" method="post" enctype="multipart/form-data">
+
+    <!-- Pesronal Detail -->
+    <section id="personal-details" class="user-profile content-box-md">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h3>My Profile</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel">First Name*</label>
+                                    @Html.TextBoxFor(x => x.User.FirstName, new { @Type = "Text", @class = "form-control InputEmail1", @placeholder = "Enter your First Name", @maxlength = "50" })
+                                    @Html.ValidationMessageFor(x => x.User.FirstName)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <!-- Last Name -->
+                                <div class="form-group">
+                                    <label class="mylabel" for="InputEmail1">Last Name*</label>
+                                    @Html.TextBoxFor(x => x.User.LastName, new { @Type = "Text", @class = "form-control InputEmail1", @placeholder = "Enter your Last Name", @maxlength = "50" })
+                                    @Html.ValidationMessageFor(x => x.User.LastName)
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label class="mylabel" for="InputEmail1">Email*</label>
+                                    @Html.TextBoxFor(x => x.User.EmailID, new { @Type = "email", @readonly = "readonly", @class = "form-control InputEmail1", @placeholder = "Enter your Email Address", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.User.EmailID)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <!-- Date Of Birth -->
+                                <div class="form-group">
+                                    <label class="mylabel" for="InputEmail1">Secondary Email</label>
+                                    @Html.TextBoxFor(x => x.SecondaryEmail, new { @Type = "email", @class = "form-control InputEmail1", @placeholder = "Enter your Email Address", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.SecondaryEmail)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+
+                                <!-- Phone Number -->
+                                <div class="form-group">
+                                    <label class="mylabel">Phone Number</label>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-5 col-sm-5 col-3 col-xl-3 col-lg-4  nopadding">
+                                                <div class="marginright">
+
+                                                    <select name="CountryCode" class="form-control inputselect">
+                                                        @if (ViewBag.CountryCode != null)
+                                                        {
+                                                            {
+                                                                foreach (var item in ViewBag.CountryCode)
+                                                                {
+                                                                    if (@item.CTC == 3)
+                                                                    {
+                                                                        if (ViewBag.CountryCode != null)
+                                                                        {
+                                                                            if (ViewBag.CountryCode1 == ("+" + item.CountryCode))
+                                                                            {
+                                                                                <option selected>@item.CountryCode</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option>@item.CountryCode</option>
+                                                                            }
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option>@item.CountryCode</option>
+                                                                        }
+
+                                                                    }
+
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <option>91</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7 col-sm-7 col-9 col-xl-9 col-lg-8 nopadding">
+                                                @Html.TextBoxFor(x => x.Number, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter your phone number", @maxlength = "100" })
+                                                @Html.ValidationMessageFor(x => x.Number)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Picture -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="upload-profile-pic">
+                                        <label class="mylabel" for="InputEmail1">Profile Picture</label>
+
+
+                                        @Html.TextBoxFor(x => x.ProfilePic, new { @Type = "file", @class = "form-control InputEmail1" })
+                                        <div class="uploadmypic text-center">
+                                            <img class="img-fluid" src="~/Content/Admin/img/user-profile/upload.png">
+                                            <h6>Upload a picture</h6>
+                                        </div>
+
+                                    </div>
+                                    @if (@ViewBag.Img != null)
+                                    {
+                                        <p class="field-validation-error">@ViewBag.Img</p>
+                                    }
+                                    else
+                                    {
+                                        @Html.ValidationMessageFor(x => x.ProfilePic);
+                                    }
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</form>
+<!-- My Profile Ends -->

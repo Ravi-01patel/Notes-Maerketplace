@@ -26,7 +26,6 @@ namespace NotesMarketplace
         }
     
         public virtual DbSet<AdminDetail> AdminDetails { get; set; }
-        public virtual DbSet<ContactU> ContactUs { get; set; }
         public virtual DbSet<CTC> CTCs { get; set; }
         public virtual DbSet<DownloadedNote> DownloadedNotes { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }

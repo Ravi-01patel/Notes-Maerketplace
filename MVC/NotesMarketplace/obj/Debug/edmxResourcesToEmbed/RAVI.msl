@@ -15,22 +15,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ContactUs">
-      <EntityTypeMapping TypeName="NotesMarketplaceModel.ContactU">
-        <MappingFragment StoreEntitySet="ContactUs">
-          <ScalarProperty Name="CUId" ColumnName="CUId" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
-          <ScalarProperty Name="Subjects" ColumnName="Subjects" />
-          <ScalarProperty Name="Comments" ColumnName="Comments" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="CTCs">
       <EntityTypeMapping TypeName="NotesMarketplaceModel.CTC">
         <MappingFragment StoreEntitySet="CTC">
@@ -63,6 +47,7 @@
           <ScalarProperty Name="Category" ColumnName="Category" />
           <ScalarProperty Name="BuyerEmail" ColumnName="BuyerEmail" />
           <ScalarProperty Name="BuyerMobile" ColumnName="BuyerMobile" />
+          <ScalarProperty Name="AttachmentSize" ColumnName="AttachmentSize" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

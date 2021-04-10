@@ -9,26 +9,11 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="Users" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Users" Type="int" Nullable="false" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" />
           <Property Name="ProfilePicture" Type="varchar(max)" />
-          <Property Name="SecondaryEmail" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="ModifiedDate" Type="datetime" />
-          <Property Name="ModifiedBy" Type="int" />
-          <Property Name="IsActive" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ContactUs">
-          <Key>
-            <PropertyRef Name="CUId" />
-          </Key>
-          <Property Name="CUId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="EmailID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Subjects" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Comments" Type="varchar(max)" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" />
-          <Property Name="CreatedBy" Type="int" />
+          <Property Name="SecondaryEmail" Type="varchar" MaxLength="100" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -65,6 +50,7 @@
           <Property Name="Category" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="BuyerEmail" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="BuyerMobile" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="AttachmentSize" Type="int" />
         </EntityType>
         <EntityType Name="Feedback">
           <Key>
@@ -177,9 +163,9 @@
           <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="DefaultProfilePicture" Type="varchar(max)" Nullable="false" />
           <Property Name="DefaultNotePreview" Type="varchar(max)" Nullable="false" />
-          <Property Name="FacebookUrl" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="TwitterUrl" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LinkedInUrl" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FacebookUrl" Type="varchar" MaxLength="50" />
+          <Property Name="TwitterUrl" Type="varchar" MaxLength="50" />
+          <Property Name="LinkedInUrl" Type="varchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="ModifiedDate" Type="datetime" />
@@ -408,7 +394,6 @@
         </Association>
         <EntityContainer Name="NotesMarketplaceModelStoreContainer">
           <EntitySet Name="AdminDetail" EntityType="Self.AdminDetail" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ContactUs" EntityType="Self.ContactUs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CTC" EntityType="Self.CTC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DownloadedNotes" EntityType="Self.DownloadedNotes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
@@ -487,30 +472,15 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Users" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Users" Type="Int32" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SecondaryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SecondaryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_AdminDetail_ToTable" FromRole="AdminDetail" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="ContactU">
-          <Key>
-            <PropertyRef Name="CUId" />
-          </Key>
-          <Property Name="CUId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="EmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Subjects" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CTC">
           <Key>
@@ -545,6 +515,7 @@
           <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BuyerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BuyerMobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AttachmentSize" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Self.FK__Downloade__Buyer__46E78A0C" FromRole="DownloadedNotes" ToRole="Users" />
           <NavigationProperty Name="User1" Relationship="Self.FK__Downloade__Users__45F365D3" FromRole="DownloadedNotes" ToRole="Users" />
           <NavigationProperty Name="NoteDetail" Relationship="Self.FK__Downloaded__Note__44FF419A" FromRole="DownloadedNotes" ToRole="NoteDetail" />
@@ -672,9 +643,9 @@
           <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DefaultProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DefaultNotePreview" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FacebookUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TwitterUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="LinkedInUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FacebookUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TwitterUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LinkedInUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
@@ -914,7 +885,6 @@
         </Association>
         <EntityContainer Name="NotesMarketplaceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AdminDetails" EntityType="Self.AdminDetail" />
-          <EntitySet Name="ContactUs" EntityType="Self.ContactU" />
           <EntitySet Name="CTCs" EntityType="Self.CTC" />
           <EntitySet Name="DownloadedNotes" EntityType="Self.DownloadedNote" />
           <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
@@ -1004,22 +974,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ContactUs">
-            <EntityTypeMapping TypeName="NotesMarketplaceModel.ContactU">
-              <MappingFragment StoreEntitySet="ContactUs">
-                <ScalarProperty Name="CUId" ColumnName="CUId" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
-                <ScalarProperty Name="Subjects" ColumnName="Subjects" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CTCs">
             <EntityTypeMapping TypeName="NotesMarketplaceModel.CTC">
               <MappingFragment StoreEntitySet="CTC">
@@ -1052,6 +1006,7 @@
                 <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="BuyerEmail" ColumnName="BuyerEmail" />
                 <ScalarProperty Name="BuyerMobile" ColumnName="BuyerMobile" />
+                <ScalarProperty Name="AttachmentSize" ColumnName="AttachmentSize" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

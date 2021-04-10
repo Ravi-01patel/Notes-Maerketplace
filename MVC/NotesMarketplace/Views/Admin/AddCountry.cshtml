@@ -1,0 +1,67 @@
+﻿@model NotesMarketplace.ManageCTC
+@{
+    ViewBag.Setting_ActiveLink = "active";
+    ViewBag.Title = "Add Country";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Add Catagory -->
+<form class="user-details-form" method="post">
+
+
+    <section id="personal-details" class="user-profile content-box-md">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h3>Add Country</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel">Country Name *</label>
+                                    @Html.TextBoxFor(x => x.CTCValue, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter country name", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.CTCValue)
+                                    <p class="field-validation-error">@ViewBag.CTC</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <!-- Last Name -->
+                                <div class="form-group">
+                                    <label class="mylabel" for="InputEmail1">Country Code*</label>
+                                    @Html.TextBoxFor(x => x.CountryCode, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter your country code", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.CountryCode)
+                                    <p class="field-validation-error">@ViewBag.CountryCode</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+</form>
+<!-- Add Catagory Ends-->

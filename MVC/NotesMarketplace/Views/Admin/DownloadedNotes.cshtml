@@ -1,0 +1,210 @@
+﻿@model NotesMarketplace.Models.AdminDownloadedNotes
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Notes_ActiveLink = "active";
+    ViewBag.Title = "Downloaded Notes";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Downloaded Notes -->
+<section id="dashboard-publish" class="mydownload-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Downloaded Notes</h3>
+            </div>
+        </div>
+
+        <div class="row top-table">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <div class="row">
+                    <div class="col-4 col-xs-12">
+                        <p class="seller-text text-left">Notes</p>
+                        <select name="notesddl" class="form-control inputselect seller-dd1" onchange="location.href = this.value">
+
+
+                            <option value="@Url.Action("DownloadedNotes", "Admin", new { notesddl = "", buyerddl = Request.QueryString["buyerddl"], sellerddl = Request.QueryString["sellerddl"] })">Select Notes</option>
+                            @foreach (String notesddl in Model.Notesddl)
+                            {
+                                if (Request.QueryString["notesddl"] != null)
+                                {
+                                    if (Request.QueryString["notesddl"].Equals(notesddl))
+                                    {
+                                        <option selected value="@Url.Action("DownloadedNotes", "Admin", new { notesddl = notesddl, buyerddl = Request.QueryString["buyerddl"], sellerddl = Request.QueryString["sellerddl"] })">@notesddl</option>
+                                        continue;
+                                    }
+                                }
+                                <option value="@Url.Action("DownloadedNotes", "Admin", new { notesddl = notesddl, buyerddl = Request.QueryString["buyerddl"], sellerddl = Request.QueryString["sellerddl"] })">@notesddl</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-4 col-xs-12">
+                        <p class="seller-text text-left">Seller</p>
+                        <select name="sellerddl" class="form-control inputselect seller-dd1" onchange="location.href = this.value">
+
+
+                            <option value="@Url.Action("DownloadedNotes", "Admin", new { sellerddl = "", Buyerddl = Request.QueryString["Buyerddl"], Notesddl = Request.QueryString["Notesddl"] })">Select Seller</option>
+                            @foreach (String sellerddl in Model.Sellerddl)
+                            {
+                                if (Request.QueryString["sellerddl"] != null)
+                                {
+                                    if (Request.QueryString["sellerddl"].Equals(sellerddl))
+                                    {
+                                        <option selected value="@Url.Action("DownloadedNotes", "Admin", new { sellerddl = sellerddl, buyerddl = Request.QueryString["buyerddl"], notesddl = Request.QueryString["notesddl"] })">@sellerddl</option>
+                                        continue;
+                                    }
+                                }
+                                <option value="@Url.Action("DownloadedNotes", "Admin", new { sellerddl = sellerddl, buyerddl = Request.QueryString["buyerddl"], notesddl = Request.QueryString["notesddl"] })">@sellerddl</option>
+                            }
+                        </select>
+
+                    </div>
+
+                    <div class="col-4 col-xs-12">
+                        <p class="seller-text text-left">Buyer</p>
+                        <select name="buyerddl" class="form-control inputselect seller-dd1" onchange="location.href = this.value">
+                            <option value="@Url.Action("DownloadedNotes", "Admin", new { buyerddl = "", sellerddl = Request.QueryString["sellerddl"], notesddl = Request.QueryString["notesddl"] })">Select Buyer</option>
+                            @foreach (String buyerddl in Model.Buyerddl)
+                            {
+                                if (Request.QueryString["buyerddl"] != null)
+                                {
+                                    if (Request.QueryString["buyerddl"].Equals(buyerddl))
+                                    {
+                                        <option selected value="@Url.Action("DownloadedNotes", "Admin", new { buyerddl = buyerddl, sellerddl = Request.QueryString["sellerddl"], notesddl = Request.QueryString["notesddl"] })">@buyerddl</option>
+                                        continue;
+                                    }
+                                }
+                                <option value="@Url.Action("DownloadedNotes", "Admin", new { buyerddl = buyerddl, sellerddl = Request.QueryString["sellerddl"], notesddl = Request.QueryString["notesddl"] })">@buyerddl</option>
+                            }
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="wrapper seller-mb">
+
+                            <img src="~/Content/Admin/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="DownloadedNotesearch" value="@Request.QueryString["DownloadedNotesearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="DownloadedNoteIndex" value=@Request.QueryString["DownloadedNoteIndex"] />
+                            <input hidden name="DownloadedNoteTitleSort" value="@Request.QueryString["DownloadedNoteTitleSort"]" />
+                            <input hidden name="DownloadedNoteCategorySort" value="@Request.QueryString["DownloadedNoteCategorySort"]" />
+                            <input hidden name="DownloadedNoteBuyerSort" value="@Request.QueryString["DownloadedNoteBuyerSort"]" />
+                            <input hidden name="DownloadedNoteSellerSort" value="@Request.QueryString["DownloadedNoteSellerSort"]" />
+                            <input hidden name="DownloadedNotePriceSort" value="@Request.QueryString["DownloadedNotePriceSort"]" />
+                        </div>
+                        <div class="btn-merge seller-mb">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.Downloaded == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("DownloadedNotes", "Admin", new { DownloadedNoteTitleSort = "title", DownloadedNoteIndex = Request.QueryString["DownloadedNoteIndex"], DownloadedNoteSearch = Request.QueryString["DownloadedNoteSearch"], DownloadedNpteCategorySort = Request.QueryString["DownloadedNoteCategorySort"],DownloadedNotePriceSort=Request.QueryString["DownloadedNotePriceSort"],DownloadedNoteSellerSort=Request.QueryString["DownloadedNoteSellerSort"], DownloadedNoteBuyerSort=Request.QueryString["DownloadedNoteBuyerSort"]  })'">NOTE TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("DownloadedNotes", "Admin", new { DownloadedNoteCategorySort = "category", DownloadedNoteIndex = Request.QueryString["DownloadedNoteIndex"], DownloadedNoteSearch = Request.QueryString["DownloadedNoteSearch"], DownloadedNoteTitleSort = Request.QueryString["DownloadedNoteTitleSort"],DownloadedNotePriceSort=Request.QueryString["DownloadedNotePriceSort"],DownloadedNoteSellerSort=Request.QueryString["DownloadedNoteSellerSort"], DownloadedNoteBuyerSort=Request.QueryString["DownloadedNoteBuyerSort"] })'">CATEGORY</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("DownloadedNotes", "Admin", new { DownloadedNoteBuyerSort="buyer" ,DownloadedNoteCategorySort = Request.QueryString["DownloadedNoteCategorySort"], DownloadedNoteIndex = Request.QueryString["DownloadedNoteIndex"], DownloadedNoteSearch = Request.QueryString["DownloadedNoteSearch"], DownloadedNoteTitleSort = Request.QueryString["DownloadedNoteTitleSort"],DownloadedNotePriceSort=Request.QueryString["DownloadedNotePriceSort"],DownloadedNoteSellerSort=Request.QueryString["DownloadedNoteSellerSort"]})'">BUYER</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("DownloadedNotes", "Admin", new { DownloadedNoteSellerSort="seller" , DownloadedNoteCategorySort = Request.QueryString["DownloadedNoteCategorySort"], DownloadedNoteIndex = Request.QueryString["DownloadedNoteIndex"], DownloadedNoteSearch = Request.QueryString["DownloadedNoteSearch"], DownloadedNoteTitleSort = Request.QueryString["DownloadedNoteTitleSort"],DownloadedNotePriceSort=Request.QueryString["DownloadedNotePriceSort"], DownloadedNoteBuyerSort=Request.QueryString["DownloadedNoteBuyerSort"] })'">SELLER</th>
+                                        <th scope="col" class="align-middle">SELL TYPE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("DownloadedNotes", "Admin", new { DownloadedNotePriceSort="price" , DownloadedNoteCategorySort = Request.QueryString["DownloadedNoteCategorySort"], DownloadedNoteIndex = Request.QueryString["DownloadedNoteIndex"], DownloadedNoteSearch = Request.QueryString["DownloadedNoteSearch"], DownloadedNoteTitleSort = Request.QueryString["DownloadedNoteTitleSort"],DownloadedNoteSellerSort=Request.QueryString["DownloadedNoteSellerSort"], DownloadedNoteBuyerSort=Request.QueryString["DownloadedNoteBuyerSort"]  })'">PRICE</th>
+                                        <th scope="col" class="align-middle">DOWNLOADED<br>DATE/TIME</th>
+                                        <th scope="col" class="align-middle"></th>
+
+                                        <th scope="col" class="align-middle"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (DownloadedNote note in Model.DownloadedNote)
+                                    {
+                                    <tr>
+                                        <td class="align-middle">@index</td>
+                                        <td class="align-middle getpurple">@note.NoteTitle</td>
+                                        <td class="align-middle">@note.Category</td>
+
+                                        <td class="align-middle">@note.User.FirstName @note.User.LastName <i class="icon-margin"><img src="~/Content/Admin/img/images/eye.png"></i></td>
+                                        <td class="align-middle">@note.User1.FirstName @note.User1.LastName <i class="icon-margin"><img src="~/Content/Admin/img/images/eye.png"></i></td>
+                                        @if (note.SellPrice == 0)
+                                        {
+                                            <td class="align-middle">Free</td>
+                                            <td class="align-middle">$0</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">Paid</td>
+                                            <td class="align-middle">$@note.SellPrice</td>
+
+                                        }
+
+                                        
+                                            <td class="align-middle">@note.CreatedDate.Value.ToString("d"), @note.CreatedDate.Value.ToString("t") </td>
+                                      
+                                        
+
+
+
+                                        <td class="align-middle">
+                                            <div class="dropdown">
+                                                <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="~/Content/Admin/img/images/dots.png">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+
+                                                    <a class="dropdown-item" href="@Url.Action("DownloadNote","Admin", new { BookID = note.Note})">Download Notes</a>
+                                                    <a class="dropdown-item" href="@Url.Action("BookID","Admin", new { id = note.Note})">View More Detail</a>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                        index++;
+                                    }
+
+                                    </tbody>
+                            </table>
+                        </div>
+                                        }
+                }
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- Downloaded Notes ENds -->
+<!-- Pagination -->
+<section id="pagination">
+    @Html.PagedListPager(Model.DownloadedNote, DownloadedNoteIndex => Url.Action("DownloadedNotes", "Admin", new { DownloadedNoteIndex, DownloadedNoteTitleSort = Request.QueryString["DownloadedNoteTitleSort"], DownloadedNoteSearch = Request.QueryString["DownloadedNoteSearch"], DownloadedNoteCategorySort = Request.QueryString["DownloadedNoteCategorySort"], DownloadedNotePriceSort = Request.QueryString["DownloadedNotePriceSort"], DownloadedNoteSellerSort = Request.QueryString["DownloadedNoteSellerSort"], DownloadedNoteBuyerSort = Request.QueryString["DownloadedNoteBuyerSort"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+<!-- Pagination Ends -->

@@ -1,0 +1,150 @@
+﻿@model NotesMarketplace.SystemConfiguration
+@{
+    ViewBag.Setting_ActiveLink = "active";
+    ViewBag.Title = "Manage System Configuration";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Manage System Config -->
+<form class="user-details-form" method="post" enctype="multipart/form-data">
+
+    <section id="personal-details" class="user-profile content-box-md">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h3>Manage System Configuration</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label class="mylabel mylabel1" for="InputEmail1">Support Email Address *</label>
+                                    @Html.TextBoxFor(x => x.EmailID1, new { @Type = "email", @class = "form-control InputEmail1", @placeholder = "Enter your Email Address", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.EmailID1)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel mylabel1">Support Phone Number *</label>
+                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter your phone numbe", @maxlength = "15" })
+                                    @Html.ValidationMessageFor(x => x.PhoneNumber)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label class="mylabel mylabel1" for="InputEmail1">Email Address(es)(for various events system will send notification to these users)</label>
+                                    @Html.TextBoxFor(x => x.EmailID2, new { @Type = "email", @class = "form-control InputEmail1", @placeholder = "Enter your Email Address", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.EmailID2)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel mylabel1">Facebook URL</label>
+                                    @Html.TextBoxFor(x => x.FacebookUrl, new { @Type = "url", @class = "form-control InputEmail1", @placeholder = "Enter your facebook URL" })
+                                    @Html.ValidationMessageFor(x => x.FacebookUrl)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel mylabel1">Twitter URL</label>
+                                    @Html.TextBoxFor(x => x.TwitterUrl, new { @Type = "url", @class = "form-control InputEmail1", @placeholder = "Enter your Twitter URL" })
+                                    @Html.ValidationMessageFor(x => x.TwitterUrl)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel mylabel1">Linkedin URL</label>
+                                    @Html.TextBoxFor(x => x.LinkedInUrl, new { @Type = "url", @class = "form-control InputEmail1", @placeholder = "Enter your Linked In URL" })
+                                    @Html.ValidationMessageFor(x => x.LinkedInUrl)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="upload-profile-pic">
+                                        <label class="mylabel mylabel1" for="InputEmail1">Default image for notes (if seller do not upload) *</label>
+
+
+                                        @Html.TextBoxFor(x => x.DefaultNotePicture, new { @Type = "file", @class = "form-control InputEmail1" })
+                                        <div class="uploadmypic text-center">
+                                            <img class="img-fluid" src="~/Content/Admin/img/user-profile/upload.png">
+                                            <h6>Upload a picture</h6>
+                                        </div>
+                                        @Html.ValidationMessageFor(x => x.DefaultNotePicture)
+
+                                    </div>
+                                    <p class="field-validation-error">@ViewBag.SystemConfig</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="upload-profile-pic">
+                                        <label class="mylabel mylabel1" for="InputEmail1">Default Profile Picture (if seller do not upload) *</label>
+
+
+
+                                        @Html.TextBoxFor(x => x.DefaultUserProfilePicture, new { @Type = "file", @class = "form-control InputEmail1" })
+                                        <div class="uploadmypic text-center">
+                                            <img class="img-fluid" src="~/Content/Admin/img/user-profile/upload.png">
+                                            <h6>Upload a picture</h6>
+                                        </div>
+                                        @Html.ValidationMessageFor(x => x.DefaultUserProfilePicture)
+
+                                    </div>
+                                    <p class="field-validation-error">@ViewBag.SystemConfig</p>
+                                    <p class="field-validation-error">@ViewBag.SystemConfig1</p>
+                                    <p class="field-validation-error">@ViewBag.Exception</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-3">
+                                <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</form>
+<!-- Manage System Config  Ends -->

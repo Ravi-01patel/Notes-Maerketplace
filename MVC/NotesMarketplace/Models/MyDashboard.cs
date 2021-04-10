@@ -16,7 +16,18 @@ namespace NotesMarketplace.Models
 
         public IPagedList<NoteDetail> published { get; set; }
 
-        public Statistic mystatistic {get; set;}
+        public Statistic stat { get; set; }
+       
+        public int NumberOfSold { get; set; }
+
+        public int TotalEarning { get; set; }
+
+        public int MyDownload { get; set; }
+
+        public int MyRejected { get; set; }
+
+        public int BuyerRequest { get; set; }
+
 
         public string progresssearch {  get; set; }
 

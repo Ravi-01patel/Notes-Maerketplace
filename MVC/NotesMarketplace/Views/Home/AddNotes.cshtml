@@ -72,10 +72,10 @@
                                                 }
 
                                             }
-                                            
+
 
                                         </select>
-                                        <p class="field-validation-error">@ViewBag.Message</p>
+                                        <p class="field-validation-error">@ViewBag.CategoryError</p>
                                         @Html.ValidationMessageFor(x => x.Category)
 
                                     </div>
@@ -99,6 +99,7 @@
                                             <h6>Upload a picture</h6>
                                         </div>
 
+                                        <p class="field-validation-error">@ViewBag.Message</p>
                                     </div>
                                     
                                     @Html.ValidationMessageFor(x => x.DisplayPicture)
@@ -177,6 +178,7 @@
                                     <label class="mylabel">Number of Pages</label>
                                     @Html.TextBoxFor(x => x.NumberOfPages, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter number of note pages" })
                                     @Html.ValidationMessageFor(x => x.NumberOfPages)
+                                
                                 </div>
                             </div>
                         </div>
@@ -207,7 +209,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="heading">
-                            <h3>Istitution Information</h3>
+                            <h3>Institution Information</h3>
                         </div>
                     </div>
                 </div>
@@ -382,7 +384,7 @@
 
                         <div class="form-group">
                             <label class="mylabel" for="InputEmail1">Sell Price *</label>
-                            @Html.TextBoxFor(x => x.SellPrice, new { @Type = "text",@id="sellprice", @class = "form-control InputEmail1", @placeholder = "Enter your professor name", @readonly = "readonly" })
+                            @Html.TextBoxFor(x => x.SellPrice, new { @Type = "text",@id="sellprice", @class = "form-control InputEmail1", @placeholder = "Enter Price of Book", @readonly = "readonly" })
                             
                         </div>
 

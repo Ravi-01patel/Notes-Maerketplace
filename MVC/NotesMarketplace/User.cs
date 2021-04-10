@@ -28,7 +28,6 @@ namespace NotesMarketplace
             this.Statistics = new HashSet<Statistic>();
             this.UserProfileDetails = new HashSet<UserProfileDetail>();
         }
-
         public int Users { get; set; }
         public int UserRole { get; set; }
 
@@ -54,6 +53,8 @@ namespace NotesMarketplace
 
         public bool RememberMe { get; set; }
 
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Only integer")]
+        public string Number { get; set; }
 
         public bool IsEmailVerified { get; set; }
         public bool IsDetailSubmitted { get; set; }
@@ -62,7 +63,6 @@ namespace NotesMarketplace
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
-
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdminDetail> AdminDetails { get; set; }

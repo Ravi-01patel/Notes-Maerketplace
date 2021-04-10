@@ -1,0 +1,275 @@
+﻿@model NotesMarketplace.Models.AdminDashboard
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Dashboard_ActiveLink = "active";
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Dashboard Upper -->
+<div class="modal fade modal-download" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="row">
+            <div class="col-xl-12">
+                <form action="unpublish">
+                    <div class="modal-content add-review">
+
+                        <div class="modal-header">
+
+                            <a type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-close 2x"></i>
+                            </a>
+                        </div>
+                        <div class="model-data">
+
+                            <div class="modal-head text-left">
+                                <h2>Unpublish Notes</h2>
+                                <input type="hidden" name="bookId2" id="bookId2" value="" />
+                            </div>
+                            <div class="middel-content text-left content-justify-left">
+
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="textarea-input">
+                                                <label class="mylabel" for="InputEmail1">Comments *</label>
+                                                <textarea name="Comment" id="Comment" placeholder="Comments..." class="form-control InputEmail1"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<section id="dashboard-upper">
+
+    <div class="container">
+
+        <!-- dashboard heading & add note button -->
+        <div class="row dashboard-upper-title">
+
+            <!-- Title -->
+            <div class="col-md-12 col-sm-12 col-12">
+                <div class="dashboard-heading">
+                    <h2>Dashboard</h2>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- Dashboard content -->
+        <div class="dashboard-content">
+            <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="row note-info">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+
+
+                            <!-- Number of notes sell -->
+                            <div class="right-dash text-center">
+                                <h4><b>@Model.notereview</b></h4>
+                                <p>
+                                    Number of Notes in Review for Publish<br>
+                                </p>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+
+                            <!-- Number of notes sell -->
+                            <div class="right-dash text-center">
+                                <h4><b>@Model.notedownloaded</b></h4>
+                                <p>Number of New Downloaded<br>(Last 7 days)</p>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+
+                            <!-- Number of notes sell -->
+                            <div class="right-dash text-center">
+                                <h4><b>@Model.newuser</b></h4>
+                                <p>Number of New Registration<br>(Last 7 days)</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Dashboard Upper ends-->
+<!-- Dashboard Publish -->
+<section id="dashboard-publish">
+    <div class="container">
+        <div class="row top-table">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+                <h3>Dashboard</h3>
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+                <form>
+                    <div class="row justify-content-end select-input-margin">
+
+                        <div class="wrapper">
+                            <img src="~/Content/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="Dashboardsearch" value="@Request.QueryString["Dashboardsearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="DashboardIndex" value=@Request.QueryString["DashboardIndex"] />
+                            <input hidden name="DashboardTitleSort" value="@Request.QueryString["DashboardTitleSort"]" />
+                            <input hidden name="DashboardCategorySort" value="@Request.QueryString["DashboardCategorySort"]" />
+                            <input hidden name="DashboardNODSort" value="@Request.QueryString["DashboardNODSort"]" />
+                            <input hidden name="DashboardSizeSort" value="@Request.QueryString["DashboardSizeSort"]" />
+                            <input hidden name="DashboardPriceSort" value="@Request.QueryString["DashboardPriceSort"]" />
+                            <input hidden name="DashboardPublisherSort" value="@Request.QueryString["DashboardPublisherSort"]" />
+                           
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+
+                        </div>
+
+                        <div>
+                            <select class="form-control inputselect seller-dd select-margin" name="MonthSort" onchange="submit()">
+
+                                <option value="">Select Month</option>
+                                @{
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        if (Request.QueryString["MonthSort"] != null)
+                                        {
+                                            if (Request.QueryString["MonthSort"].Equals(DateTime.Now.AddMonths(-i).ToString("Y")))
+                                            {
+                                                <option selected>@DateTime.Now.AddMonths(-i).ToString("Y")</option>
+                                                continue;
+                                            }
+                                        }
+                                        <option>@DateTime.Now.AddMonths(-i).ToString("Y")</option>
+                                        
+
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.Dashboard == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Admin", new { DashboardTitleSort = "title", DashboardIndex = Request.QueryString["DashboardIndex"], Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardCategorySort = Request.QueryString["DashboardCategorySort"],DashboardSizeSort=Request.QueryString["DashboardSizeSort"],DashboardNODSort=Request.QueryString["DashboardNODSort"],DashboardPriceSort= Request.QueryString["DashboardPriceSort"],DashboardPublisherSort= Request.QueryString["DashboardPublisherSort"] })'">TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Admin", new { DashboardCategorySort = "category", DashboardIndex = Request.QueryString["DashboardIndex"], Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardTitleSort = Request.QueryString["DashboardTitleSort"],DashboardSizeSort=Request.QueryString["DashboardSizeSort"],DashboardNODSort=Request.QueryString["DashboardNODSort"],DashboardPriceSort= Request.QueryString["DashboardPriceSort"],DashboardPublisherSort= Request.QueryString["DashboardPublisherSort"] })'">CATEGORY</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Admin", new { DashboardSizeSort="size",DashboardNODSort=Request.QueryString["DashboardNODSort"],DashboardPriceSort= Request.QueryString["DashboardPriceSort"],DashboardPublisherSort= Request.QueryString["DashboardPublisherSort"], DashboardCategorySort = Request.QueryString["DashboardCategorySort"], DashboardIndex = Request.QueryString["DashboardIndex"], Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardTitleSort = Request.QueryString["DashboardTitleSort"] })'">ATTACHMENT SIZE</th>
+                                        <th scope="col" class="align-middle">SELL TYPE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Admin", new { DashboardPriceSort="price" ,DashboardNODSort=Request.QueryString["DashboardNODSort"],DashboardSizeSort= Request.QueryString["DashboardSizeSort"] ,DashboardPublisherSort= Request.QueryString["DashboardPublisherSort"], DashboardCategorySort = Request.QueryString["DashboardCategorySort"], DashboardIndex = Request.QueryString["DashboardIndex"], Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardTitleSort = Request.QueryString["DashboardTitleSort"] })'">PRICE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Admin", new { DashboardPublisherSort="publisher",DashboardNODSort=Request.QueryString["DashboardNODSort"],DashboardSizeSort= Request.QueryString["DashboardSizeSort"] ,DashboardPriceSort= Request.QueryString["DashboardPriceSort"],DashboardCategorySort = Request.QueryString["DashboardCategorySort"], DashboardIndex = Request.QueryString["DashboardIndex"], Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardTitleSort = Request.QueryString["DashboardTitleSort"] })'">PUBLISHER</th>
+                                        <th scope="col" class="align-middle">PUBLISH DATE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("Dashboard", "Admin", new { DashboardNODSort="NOD" ,DashboardSizeSort= Request.QueryString["DashboardSizeSort"] ,DashboardPriceSort= Request.QueryString["DashboardPriceSort"],DashboardPublisherSort= Request.QueryString["DashboardPublisherSort"],DashboardCategorySort = Request.QueryString["DashboardCategorySort"], DashboardIndex = Request.QueryString["DashboardIndex"], Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardTitleSort = Request.QueryString["DashboardTitleSort"] })'">NUMBER OF<br>DOWNLOAD</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (NotesMarketplace.Models.AdminCommon AC in Model.dashboard)
+                                    {
+                                    <tr>
+                                        <td class="align-middle text-center">@index</td>
+                                        <td class="align-middle"><a class="getpurple" href="#">@AC.note.Title</a></td>
+                                        <td class="align-middle">@AC.note.Category</td>
+                                        <td class="align-middle text-center">@AC.note.NoteSize</td>
+                                        @if (AC.note.SellPrice == 0)
+                                        {
+                                            <td class="align-middle text-center">Free</td>
+                                            <td class="align-middle text-center">$0</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle text-center">Paid</td>
+                                            <td class="align-middle text-center">$@AC.note.SellPrice</td>
+                                        }
+
+                                        <td class="align-middle text-center">@AC.note.User.FirstName @AC.note.User.LastName </td>
+                                        <td class="align-middle text-center">@AC.note.PublishedDate.Value.ToString("d"), @AC.note.PublishedDate.Value.ToString("t")</td>
+                                        <td class="align-middle text-center"><a class="getpurple" href="#">@AC.NumberOfDownload</a></td>
+                                        <td class="align-middle">
+                                            <div class="row text-center">
+                                                <div class="dropdown">
+                                                    <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Content/Admin/img/images/dots.png">
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="@Url.Action("DownloadNote","Admin", new { BookID = AC.note.Note})">Download Notes</a>
+                                                        <a class="dropdown-item" href="@Url.Action("BookID","Admin", new { id = AC.note.Note})">View More Detail</a>
+
+                                                        <a class="dropdown-item open-AddBookDialog" href="#" type="submit" data-toggle="modal" data-id="@AC.note.Note" data-target="#exampleModal1">Unpublish</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                        index++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        }
+                    }
+                    </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- Dashboard Publish end-->
+<!-- Pagination -->
+<section id="pagination">
+    @Html.PagedListPager(Model.dashboard, DashboardIndex => Url.Action("Dashboard", "Admin", new { DashboardIndex, Dashboardsearch = Request.QueryString["Dashboardsearch"], DashboardTitleSort = Request.QueryString["DashboardTitleSort"], DashboardCategorySort = Request.QueryString["DashboardCategorySort"] , DashboardNODSort = Request.QueryString["DashboardNODSort"], DashboardSizeSort = Request.QueryString["DashboardSizeSort"], DashboardPriceSort = Request.QueryString["DashboardPriceSort"], DashboardPublisherSort = Request.QueryString["DashboardPublisherSort"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+<!-- Pagination Ends -->

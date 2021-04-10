@@ -57,7 +57,7 @@
                                 <!-- Number of notes sell -->
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                                     <div class="dash-left text-center">
-                                        <h4><b>@Model.mystatistic.SoldNotes</b></h4>
+                                        <h4><b>@Model.NumberOfSold</b></h4>
                                         <p>Number Of Sold Notes</p>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                 <!-- Money Earned  -->
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                                     <div class="dash-left text-center">
-                                        <h4><b>&#36;@Model.mystatistic.TotalEarning</b></h4>
+                                        <h4><b>&#36;@Model.TotalEarning</b></h4>
                                         <p>Money Earned</p>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
 
                                 <!-- Number of notes sell -->
                                 <div class="right-dash text-center">
-                                    <h4><b>@Model.mystatistic.DownloadedNotes</b></h4>
+                                    <h4><b>@Model.MyDownload</b></h4>
                                     <p>My Downloads</p>
                                 </div>
 
@@ -95,7 +95,7 @@
 
                             <!-- Number of notes sell -->
                             <div class="right-dash text-center">
-                                <h4><b>@Model.mystatistic.RejectedNotes</b></h4>
+                                <h4><b>@Model.MyRejected</b></h4>
                                 <p>My Rejected Notes</p>
                             </div>
 
@@ -104,7 +104,7 @@
 
                             <!-- Number of notes sell -->
                             <div class="right-dash text-center">
-                                <h4><b>@Model.mystatistic.BuyerRequests</b></h4>
+                                <h4><b>@Model.BuyerRequest</b></h4>
                                 <p>Buyer Request</p>
                             </div>
 
@@ -184,37 +184,45 @@
 
                                     @foreach (NoteDetail mynote in Model.progress)
                                     {
-                                        <tr>
-                                            <td class="align-middle">@mynote.CreatedDate.Value.ToString("d")</td>
-                                            <td class="align-middle">@mynote.Title</td>
-                                            <td class="align-middle">@mynote.Category</td>
+                                    <tr>
+                                        <td class="align-middle">@mynote.CreatedDate.Value.ToString("d")</td>
+                                        <td class="align-middle">@mynote.Title</td>
+                                        <td class="align-middle">@mynote.Category</td>
+                                        @if (mynote.NoteStatus == 1)
+                                        {
                                             <td class="align-middle">Draft</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">Submitted</td>
+                                        }
 
-                                            @if (mynote.NoteStatus == 1)
-                                            {
-                                                <td class="align-middle">
-                                                    <div class="row">
-                                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                                            <a href="@Url.Action("EditNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/edit.png" alt="Edit"></a>
-                                                        </div>
-                                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                                            <a href="@Url.Action("DeleteNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/delete.png" alt="Delete"></a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td class="align-middle">
-                                                    <div class="row text-center">
-                                                        <div class="col-11 col-sm-11 col-md-9 col-lg-7">
-                                                            <a href="@Url.Action("ViewNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            }
 
-                                        </tr>
+                                        @if (mynote.NoteStatus == 1)
+                                        {
+                                            <td class="align-middle">
+                                                <div class="row">
+                                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                                        <a href="@Url.Action("EditNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/edit.png" alt="Edit"></a>
+                                                    </div>
+                                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                                        <a href="@Url.Action("DeleteNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/delete.png" alt="Delete"></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">
+                                                <div class="row text-center">
+                                                    <div class="col-11 col-sm-11 col-md-9 col-lg-7">
+                                                        <a href="@Url.Action("ViewNotes","Home", new { id = mynote.Note})"><img src="~/Content/img/Dashboard/eye.png" alt="View"></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        }
+
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

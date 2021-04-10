@@ -1,0 +1,173 @@
+﻿@model NotesMarketplace.Models.AdminNoteUnderReview
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Notes_ActiveLink = "active";
+    ViewBag.Title = "Notes Under Review";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+
+<!-- Notes Under Review -->
+<section id="dashboard-publish" class="mydownload-margin">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Notes Under Review</h3>
+            </div>
+        </div>
+
+        <div class="row top-table">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <div class="div-seller text-center">
+                    <p class="seller-text text-left"><span>Seller</span></p>
+
+                    <select class="form-control inputselect seller-dd" onchange="location.href = this.value">
+
+
+                        <option value="@Url.Action("NotesUnderReview", "Admin", new { sellerddl = "" })">Select Seller</option>
+                        @foreach (String sellerddl in Model.Sellerddl)
+                        {
+                            if (Request.QueryString["sellerddl"] != null)
+                            {
+                                if (Request.QueryString["sellerddl"].Equals(sellerddl))
+                                {
+                                    <option selected value="@Url.Action("NotesUnderReview", "Admin", new { sellerddl = sellerddl })">@sellerddl</option>
+                                    continue;
+                                }
+                            }
+                            <option value="@Url.Action("NotesUnderReview", "Admin", new { sellerddl = sellerddl, })">@sellerddl</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                <form>
+                    <div class="row justify-content-end extra-margin2">
+                        <div class="wrapper seller-mb">
+                            <img src="~/Content/Admin/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="NoteUnderReviewsearch" value="@Request.QueryString["NoteUnderReviewsearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="NoteUnderReviewIndex" value=@Request.QueryString["NoteUnderReviewIndex"] />
+                            <input hidden name="NoteUnderReviewTitleSort" value="@Request.QueryString["NoteUnderReviewTitleSort"]" />
+                            <input hidden name="NoteUnderReviewCategorySort" value="@Request.QueryString["NoteUnderReviewCategorySort"]" />
+                            <input hidden name="NoteUnderReviewSellerSort" value="@Request.QueryString["NoteUnderReviewSellerSort"]" />
+                            <input hidden name="sellerddl" value="@Request.QueryString["sellerddl"]" />
+                        </div>
+                        <div class="btn-merge seller-mb">
+                            
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.NoteunderReview == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table text-center">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("NotesUnderReview", "Admin", new { NoteUnderReviewTitleSort = "title", NoteUnderReviewIndex = Request.QueryString["NoteUnderReviewIndex"], NoteUnderReviewSearch = Request.QueryString["NoteUnderReviewSearch"], NoteUnderReviewCategorySort = Request.QueryString["NoteUnderReviewCategorySort"], NoteUnderReviewSellerSort = Request.QueryString["NoteUnderReviewSellerSort"], sellerddl = Request.QueryString["sellerddl"]})'">NOTE TITLE</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("NotesUnderReview", "Admin", new { NoteUnderReviewCategorySort = "category", NoteUnderReviewIndex = Request.QueryString["NoteUnderReviewIndex"], NoteUnderReviewSearch = Request.QueryString["NoteUnderReviewSearch"], NoteUnderReviewTitleSort = Request.QueryString["NoteUnderReviewTitleSort"], NoteUnderReviewSellerSort = Request.QueryString["NoteUnderReviewSellerSort"], sellerddl = Request.QueryString["sellerddl"]})'">CATEGORY</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("NotesUnderReview", "Admin", new { NoteUnderReviewSellerSort = "seller", NoteUnderReviewIndex = Request.QueryString["NoteUnderReviewIndex"], NoteUnderReviewSearch = Request.QueryString["NoteUnderReviewSearch"], NoteUnderReviewCategorySort = Request.QueryString["NoteUnderReviewCategorySort"], NoteUnderReviewTitleSort = Request.QueryString["NoteUnderReviewTitleSort"],sellerddl = Request.QueryString["sellerddl"] })'">SELLER</th>
+                                        <th scope="col" class="align-middle">DATE ADDED</th>
+                                        <th scope="col" class="align-middle">STATUS</th>
+                                        <th scope="col" class="align-middle">ACTION</th>
+                                        <th scope="col" class="align-middle"></th>
+
+                                        <th scope="col" class="align-middle"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (NoteDetail note in Model.NoteUnderReview)
+                                    {
+                                    <tr>
+                                        <td class="align-middle">@index</td>
+                                        <td class="align-middle getpurple">@note.Title</td>
+                                        <td class="align-middle">@note.Category</td>
+                                        <td class="align-middle">@note.User.FirstName @note.User.LastName</td>
+                                        <td class="align-middle">@note.CreatedDate.Value.ToString("d"), @note.CreatedDate.Value.ToString("t")</td>
+                                        @if (note.NoteStatus == 2)
+                                        {
+                                            <td class="align-middle">Submitted</td>
+                                            <td class="align-middle">
+                                                <a>
+                                                    <button type="submit" class="btn text-center review-btn btn-green" id="ApproveButton" onclick="location.href = '@Url.Action("ApproveNote","Admin", new { BookID = note.Note})'"><b>Approve</b></button>
+                                                </a>
+                                                <a>
+                                                    <button type="submit" class="btn text-center review-btn btn-red" id="RejectedButton" onclick="location.href = '@Url.Action("RejectNote","Admin", new { BookID = note.Note})'"><b>Reject</b></button>
+                                                </a>
+                                                <a>
+                                                    <button type="submit" class="btn text-center review-btn btn-gray" id="InreviewButton" onclick="location.href = '@Url.Action("InReviewNote","Admin", new { BookID = note.Note})'"><b>In Review</b></button>
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">In Review</td>
+                                            <td class="align-middle">
+                                                <a>
+                                                    <button type="submit" class="btn text-center review-btn btn-green" id="ApproveButton" onclick="location.href='@Url.Action("ApproveNote","Admin", new { BookID = note.Note})'"><b>Approve</b></button>
+                                                </a>
+                                                <a>
+                                                    <button type="submit" class="btn text-center review-btn btn-red" id="RejectedButton" onclick="location.href='@Url.Action("RejectNote","Admin", new { BookID = note.Note})'"><b>Reject</b></button>
+                                                </a>
+                                                <a>
+                                                    <button disabled type="submit" class="btn text-center review-btn btn-gray" id=""><b>In Review</b></button>
+                                                </a>
+                                            </td>
+                                        }
+
+
+                                        <td class="align-middle">
+                                            <div class="dropdown">
+                                                <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="~/Content/Admin/img/images/dots.png">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                    <a class="dropdown-item" href="@Url.Action("DownloadNote","Admin", new { BookID =note.Note})">Download Notes</a>
+                                                    <a class="dropdown-item" href="@Url.Action("BookID","Admin", new { id = note.Note})">View More Detail</a>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                        index++;
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Notes Under Review ends -->
+<!-- Pagination -->
+<section id="pagination">
+    @Html.PagedListPager(Model.NoteUnderReview, NoteUnderReviewIndex => Url.Action("NotesUnderReview", "Admin", new { NoteUnderReviewIndex, NoteUnderReviewTitleSort = Request.QueryString["NoteUnderReviewTitleSort"], NoteUnderReviewSearch = Request.QueryString["NoteUnderReviewSearch"], NoteUnderReviewCategorySort = Request.QueryString["NoteUnderReviewCategorySort"], NoteUnderReviewSellerSort = Request.QueryString["NoteUnderReviewSellerSort"], sellerddl = Request.QueryString["sellerddl"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>
+
+<!-- Pagination Ends-->

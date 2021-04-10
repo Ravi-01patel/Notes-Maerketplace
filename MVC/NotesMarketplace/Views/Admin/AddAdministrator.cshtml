@@ -1,0 +1,137 @@
+﻿@model NotesMarketplace.AdminDetail
+@{
+    ViewBag.Setting_ActiveLink = "active";
+    ViewBag.Title = "Add Administrator";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Add Administrator-->
+<form class="user-details-form" method="post">
+
+
+    <section id="personal-details" class="user-profile content-box-md">
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h3>Add Administrator</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label class="mylabel">First Name*</label>
+                                    @Html.TextBoxFor(x => x.User.FirstName, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter your FirstName", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.User.FirstName)
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <!-- Last Name -->
+                                <div class="form-group">
+                                    <label class="mylabel" for="InputEmail1">Last Name*</label>
+                                    @Html.TextBoxFor(x => x.User.LastName, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter your Last Name", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.User.LastName)
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label class="mylabel" for="InputEmail1">Email*</label>
+                                    @Html.TextBoxFor(x => x.User.EmailID, new { @Type = "email", @class = "form-control InputEmail1", @placeholder = "Enter your Email", @maxlength = "100" })
+                                    @Html.ValidationMessageFor(x => x.User.EmailID)
+                                    <p class="field-validation-error">@ViewBag.Admin</p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-6">
+
+                                <!-- Phone Number -->
+                                <div class="form-group">
+                                    <label class="mylabel">Phone Number</label>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-5 col-sm-5 col-3 col-xl-3 col-lg-4  nopadding">
+                                                <div class="marginright">
+
+                                                    <select name="CountryCode" class="form-control inputselect">
+                                                        @if (ViewBag.CountryCode != null)
+                                                        {
+                                                            {
+                                                                foreach (var item in ViewBag.CountryCode)
+                                                                {
+                                                                    if (@item.CTC == 3)
+                                                                    {
+                                                                        if (ViewBag.CountryCode != null)
+                                                                        {
+                                                                            if (ViewBag.CountryCode1 == ("+" + item.CountryCode))
+                                                                            {
+                                                                                <option selected>@item.CountryCode</option>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option>@item.CountryCode</option>
+                                                                            }
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <option>@item.CountryCode</option>
+                                                                        }
+
+                                                                    }
+
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <option>91</option>
+                                                        }
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7 col-sm-7 col-9 col-xl-9 col-lg-8 nopadding">
+                                                @Html.TextBoxFor(x => x.Number, new { @Type = "text", @class = "form-control InputEmail1", @placeholder = "Enter your phone number", @maxlength = "100" })
+                                                @Html.ValidationMessageFor(x => x.Number)
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-2 col-sm-6">
+                                <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>submit</b></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</form>
+<!-- Add Administrator Ends-->

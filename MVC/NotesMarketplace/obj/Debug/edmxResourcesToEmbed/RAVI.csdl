@@ -4,30 +4,15 @@
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" />
-    <Property Name="Users" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Users" Type="Int32" Nullable="false" />
     <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="SecondaryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SecondaryEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
     <Property Name="ModifiedBy" Type="Int32" />
     <Property Name="IsActive" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="User" Relationship="Self.FK_AdminDetail_ToTable" FromRole="AdminDetail" ToRole="Users" />
-  </EntityType>
-  <EntityType Name="ContactU">
-    <Key>
-      <PropertyRef Name="CUId" />
-    </Key>
-    <Property Name="CUId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="EmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Subjects" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-    <Property Name="CreatedBy" Type="Int32" />
-    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifiedBy" Type="Int32" />
-    <Property Name="IsActive" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="CTC">
     <Key>
@@ -62,6 +47,7 @@
     <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="BuyerEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="BuyerMobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AttachmentSize" Type="Int32" />
     <NavigationProperty Name="User" Relationship="Self.FK__Downloade__Buyer__46E78A0C" FromRole="DownloadedNotes" ToRole="Users" />
     <NavigationProperty Name="User1" Relationship="Self.FK__Downloade__Users__45F365D3" FromRole="DownloadedNotes" ToRole="Users" />
     <NavigationProperty Name="NoteDetail" Relationship="Self.FK__Downloaded__Note__44FF419A" FromRole="DownloadedNotes" ToRole="NoteDetail" />
@@ -189,9 +175,9 @@
     <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="DefaultProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="DefaultNotePreview" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="FacebookUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="TwitterUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="LinkedInUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FacebookUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TwitterUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LinkedInUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="CreatedDate" Type="DateTime" Precision="3" />
     <Property Name="CreatedBy" Type="Int32" />
     <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
@@ -431,7 +417,6 @@
   </Association>
   <EntityContainer Name="NotesMarketplaceEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="AdminDetails" EntityType="Self.AdminDetail" />
-    <EntitySet Name="ContactUs" EntityType="Self.ContactU" />
     <EntitySet Name="CTCs" EntityType="Self.CTC" />
     <EntitySet Name="DownloadedNotes" EntityType="Self.DownloadedNote" />
     <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />

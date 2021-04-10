@@ -1,0 +1,127 @@
+﻿@model NotesMarketplace.Models.AdminManageAdmin
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Setting_ActiveLink = "active";
+    ViewBag.Title = "Manage Administrator";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+
+<!--Manage Admin -->
+<section id="dashboard-publish" class="mydownload-margin">
+    <div class="container">
+        <div class="row top-table">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Manage Administrator</h3>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+
+                <button type="submit" class="btn text-uppercase text-center addbutton" id="" onclick="location.href = '@Url.Action("AddAdministrator","Admin")'"><b>Add Administrator</b></button>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="wrapper">
+                            <img src="~/Content/Admin/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="AdminSearch" value="@Request.QueryString["AdminSearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="AdminIndex" value=@Request.QueryString["AdminIndex"] />
+                            <input hidden name="FirstNameSort" value="@Request.QueryString["FirstNameSort"]" />
+                            <input hidden name="LastNameSort" value="@Request.QueryString["LastNameSort"]" />
+                            <input hidden name="PhoneNumberSort" value="@Request.QueryString["PhoneNumberSort"]" />
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.ManageAdmin == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href = '@Url.Action("ManageAdministrator","Admin", new { FirstNameSort = "FirstName",AdminIndex= Request.QueryString["AdminIndex"],AdminSearch = Request.QueryString["AdminSearch"], LastNameSort = Request.QueryString["LastNameSort"], PhoneNumberSort = Request.QueryString["PhoneNumberSort"]})'">FIRST NAME</th>
+                                        <th scope="col" class="align-middle" onclick="location.href = '@Url.Action("ManageAdministrator","Admin", new { LastNameSort = "LastName",AdminIndex= Request.QueryString["AdminIndex"],AdminSearch = Request.QueryString["AdminSearch"], FirstNameSort = Request.QueryString["FirstNameSort"], PhoneNumberSort = Request.QueryString["PhoneNumberSort"]})'">LAST NAME</th>
+                                        <th scope="col" class="align-middle">EMAIL</th>
+                                        <th scope="col" class="align-middle" onclick="location.href = '@Url.Action("ManageAdministrator","Admin", new { PhoneNumberSort = "PhoneNumber",AdminIndex= Request.QueryString["AdminIndex"],AdminSearch = Request.QueryString["AdminSearch"], FirstNameSort = Request.QueryString["FirstNameSort"], LastNameSort = Request.QueryString["LastNameSort"] })'">PHONE NO.</th>
+                                        <th scope="col" class="align-middle">DATE ADDED</th>
+                                        <th scope="col" class="align-middle">ACTIVE</th>
+                                        <th scope="col" class="align-middle">ACTION</th>
+                                        <th scope="col" class="align-middle"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (AdminDetail Admin in Model.Admin)
+                                    {
+                                    <tr>
+                                        <td class="align-middle text-center">@index</td>
+                                        <td class="align-middle">@Admin.User.FirstName</td>
+                                        <td class="align-middle">@Admin.User.LastName</td>
+                                        <td class="align-middle">@Admin.User.EmailID</td>
+                                        @if (Admin.PhoneNumber == null)
+                                        {
+                                            <td class="align-middle">-</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">@Admin.PhoneNumber</td>
+                                        }
+
+                                        <td class="align-middle">@Admin.User.CreatedDate.Value.ToString("d"), @Admin.User.CreatedDate.Value.ToString("t")</td>
+                                        @if (Admin.IsActive)
+                                        {
+                                            <td class="align-middle text-center">Yes</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle text-center">No</td>
+                                        }
+
+                                        <td class="align-middle">
+                                            <a href="@Url.Action("EditAdministrator","Admin", new { id = Admin.Users})"><img src="~/Content/Admin/img/images/edit.png"></a>
+                                            <a href="@Url.Action("DeleteAdministrator","Admin", new { id = Admin.Users})"><img src="~/Content/Admin/img/images/delete.png" class="leftmar"></a>
+                                        </td>
+                                        <td></td>
+
+                                    </tr>
+                                        index++;
+                                    }
+                                    </tbody>
+                            </table>
+                        </div>
+                        }
+                    }
+                    </div>
+
+
+        </div>
+    </div>
+</section>
+<!--Manage Admin Ends-->
+<section id="pagination">
+    @Html.PagedListPager(Model.Admin, AdminIndex => Url.Action("ManageAdministrator", "Admin", new { AdminIndex,AdminSearch = Request.QueryString["AdminSearch"], FirstNameSort = Request.QueryString["FirstNameSort"], LastNameSort = Request.QueryString["LastNameSort"], PhoneNumberSort = Request.QueryString["PhoneNumberSort"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>

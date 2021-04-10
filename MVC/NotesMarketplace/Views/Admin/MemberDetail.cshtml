@@ -1,0 +1,225 @@
+﻿@model NotesMarketplace.Models.AdminMemberDetail
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Members_ActiveLink = "active";
+    ViewBag.Title = "Member Detail";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+<!-- Detail Upper -->
+<section id="notesdetail-detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <div class="head">
+                    <h3>Member Details</h3>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                        <div class="row docenter">
+                            <div class=" col-xs-12 col-sm-5 col-md-5 col-lg-3">
+                                @if (@Model.Member.ProfilePicture == null)
+                                {
+                                    <img class="img-fluid" src="~/Upload/UserProfilePicture/DefaultUserImage.png">
+                                }
+                                else
+                                {
+                                    <img class="img-fluid" src="~/Upload/UserProfilePicture/@Model.Member.ProfilePicture">
+                                }
+
+                            </div>
+                            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-9">
+                                <div class="row">
+                                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-4 left-side-note">
+                                        <h5>First Name:</h5>
+                                        <h5>Last Name:</h5>
+                                        <h5>Email:</h5>
+                                        <h5>DOB:</h5>
+                                        <h5>Phone No.:</h5>
+                                        <h5>College/<br>University:</h5>
+
+
+                                    </div>
+                                    <div class="col-xs-7 col-sm-7 col-md-5 col-lg-8 right-side-note">
+                                        <h5>@Model.Member.User.FirstName</h5>
+                                        <h5>@Model.Member.User.LastName</h5>
+                                        <h5>@Model.Member.User.EmailID</h5>
+                                        @if (Model.Member.DOB != null)
+                                        {
+                                            <h5>@Model.Member.DOB</h5>
+                                        }
+                                        else
+                                        {
+                                            <h5>-</h5>
+                                        }
+                                        @if (Model.Member.PhoneNumber != null)
+                                        {
+                                            <h5>@Model.Member.PhoneNumber</h5>
+                                        }
+                                        else
+                                        {
+                                            <h5>-</h5>
+                                        }
+                                        @if (Model.Member.College != null)
+                                        {
+                                            <h5><br>@Model.Member.College</h5>
+                                        }
+                                        else
+                                        {
+                                            <h5>-</h5>
+                                        }
+                                        
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 margin-top">
+                        <div class="row">
+                            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 left-side-note">
+                                <h5>Address 1:</h5>
+                                <h5>Address 2:</h5>
+                                <h5>City:</h5>
+                                <h5>State:</h5>
+                                <h5>Country:</h5>
+                                <h5>Zipcode:</h5>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 right-side-note">
+                                <h5>@Model.Member.Address1</h5>
+                                <h5>@Model.Member.Address2</h5>
+                                <h5>@Model.Member.City</h5>
+                                <h5>@Model.Member.States</h5>
+                                <h5>@Model.Member.Country</h5>
+                                <h5>@Model.Member.ZipCode</h5>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- Detail Upper Ends-->
+
+<div class="content-box-md">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Notes -->
+<div class="outerbox">
+    <section id="dashboard-publish" class="member-margin">
+        <div class="container">
+            <div class="row top-table">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <h3>Notes</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @{
+                        if (ViewBag.MemberDetail == "true")
+                        {
+                            <h3 class="NoRecord">No Record Found</h3>
+                        }
+                        else
+                        {
+                            <div class="grid-table table-responsive-xl">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="align-middle text-center">SR NO.</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MemberDetail", "Admin", new {NoteTitleSort="NoteTitle" ,PublishedDateSort=Request.QueryString["PublishedDateSort"],NoteCategorySort=Request.QueryString["NoteCategorySort"],DownloadedNotesSort=Request.QueryString["DownloadedNotesSort"],TotalEarningSort=Request.QueryString["TotalEarningSort"], MemberDetailIndex=Request.QueryString["MemberDetailIndex"] })'">NOTE TITLE</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MemberDetail", "Admin", new {NoteCategorySort="NoteCategory",PublishedDateSort=Request.QueryString["PublishedDateSort"], NoteTitleSort=Request.QueryString["NoteTitleSort"] ,DownloadedNotesSort=Request.QueryString["DownloadedNotesSort"],TotalEarningSort=Request.QueryString["TotalEarningSort"], MemberDetailIndex=Request.QueryString["MemberDetailIndex"] })'">CATEGORY</th>
+                                            <th scope="col" class="align-middle">STATUS</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MemberDetail", "Admin", new {DownloadedNotesSort="DownloadedNotes",PublishedDateSort=Request.QueryString["PublishedDateSort"], NoteTitleSort=Request.QueryString["NoteTitleSort"] ,NoteCategorySort=Request.QueryString["NoteCategorySort"],TotalEarningSort=Request.QueryString["TotalEarningSort"], MemberDetailIndex=Request.QueryString["MemberDetailIndex"] })'">DOWNLOADED NOTES</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MemberDetail", "Admin", new {TotalEarningSort="TotalEarning",PublishedDateSort=Request.QueryString["PublishedDateSort"], NoteTitleSort=Request.QueryString["NoteTitleSort"] ,NoteCategorySort=Request.QueryString["NoteCategorySort"],DownloadedNotesSort=Request.QueryString["DownloadedNotesSort"], MemberDetailIndex=Request.QueryString["MemberDetailIndex"] })'">TOTAL EARNING</th>
+                                            <th scope="col" class="align-middle">DATE ADDED</th>
+                                            <th scope="col" class="align-middle" onclick="location.href='@Url.Action("MemberDetail", "Admin", new {PublishedDateSort="PublishedDate", NoteTitleSort=Request.QueryString["NoteTitleSort"] ,NoteCategorySort=Request.QueryString["NoteCategorySort"],DownloadedNotesSort=Request.QueryString["DownloadedNotesSort"],TotalEarningSort=Request.QueryString["TotalEarningSort"], MemberDetailIndex=Request.QueryString["MemberDetailIndex"] })'">PUBLISHED DATE</th>
+
+
+                                            <th scope="col" class="align-middle"> </th>
+                                            <th scope="col" class="align-middle"> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{int index = 1;}
+                                        @foreach (NoteDetail note in Model.Note)
+                                        {
+                                        <tr>
+                                            <td class="align-middle text-center">@index</td>
+                                            <td class="align-middle  getpurple">@note.Title</td>
+                                            <td class="align-middle">@note.Category</td>
+                                            <td class="align-middle">@note.NoteStatu.StatusName</td>
+                                            <td class="align-middle getpurple">@note.DownloadedNotes.Where(m => m.IsApproved).Count()</td>
+                                            <td class="align-middle">@note.DownloadedNotes.Where(m => m.IsApproved).Select(m => m.SellPrice).Sum()</td>
+                                            <td class="align-middle">@note.CreatedDate</td>
+                                            @if (note.NoteStatus == 4)
+                                            {
+                                                <td class="align-middle">@note.PublishedDate</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="align-middle">-</td>
+                                            }
+
+                                            <td class="align-middle">
+                                                <div class="dropdown">
+                                                    <a type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <img src="~/Content/Admin/img/images/dots.png">
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                                        <a class="dropdown-item" href="@Url.Action("DownloadNote","Admin", new { BookID = note.Note})">Download Notes</a>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                            index++;
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    }
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- Notes ENds
+    <!-- Pagination -->
+    <section id="pagination">
+        @Html.PagedListPager(Model.Note, MemberDetailIndex => Url.Action("MemberDetail", "Admin", new { MemberDetailIndex, PublishedDateSort = Request.QueryString["PublishedDateSort"], NoteTitleSort = Request.QueryString["NoteTitleSort"], NoteCategorySort = Request.QueryString["NoteCategorySort"], DownloadedNotesSort = Request.QueryString["DownloadedNotesSort"], TotalEarningSort = Request.QueryString["TotalEarningSort"] }), new PagedList.Mvc.PagedListRenderOptions
+   {
+       ContainerDivClasses = null,
+       LiElementClasses = new string[] { "page-item1" },
+       UlElementClasses = new string[] { "pagination justify-content-center" },
+       LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+       LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+       MaximumPageNumbersToDisplay = 5,
+       DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+       DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+   })
+        <section id="pagination">
+            <!-- Pagination Ends -->
+</div>

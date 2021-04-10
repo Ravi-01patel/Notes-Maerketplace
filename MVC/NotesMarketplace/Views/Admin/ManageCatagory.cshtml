@@ -1,0 +1,115 @@
+﻿@model NotesMarketplace.Models.AdminCTCCommon
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Setting_ActiveLink = "active";
+    ViewBag.Title = "Manage Category";
+    Layout = "~/Views/Shared/AdminCommon.cshtml";
+}
+
+<!-- Manage Category -->
+<section id="dashboard-publish" class="mydownload-margin">
+    <div class="container">
+        <div class="row top-table">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Manage Catagory</h3>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+
+                <button type="submit" class="btn text-uppercase text-center addbutton" id="AddCategory" onclick="location.href='@Url.Action("AddCategory","Admin")'"><b>Add Catagory</b></button>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="wrapper">
+                            <img src="~/Content/Admin/img/Dashboard/search.jpg" class="searchimage doup">
+                            <input type="text" name="CTCSearch" value="@Request.QueryString["CTCSearch"]" class="form-control search-bar InputEmail1" placeholder="Search">
+                            <input hidden name="CTCIndex" value=@Request.QueryString["CTCIndex"] />
+                            <input hidden name="CTCSort" value="@Request.QueryString["CTCSort"]" />
+                            <input hidden name="AddedBySort" value="@Request.QueryString["AddedBySort"]" />
+                        </div>
+                        <div class="btn-merge">
+                            <button type="submit" class="btn text-uppercase text-center" id="mybtn"><b>Search</b></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @{
+                    if (ViewBag.ManageCategory == "true")
+                    {
+                        <h3 class="NoRecord">No Record Found</h3>
+                    }
+                    else
+                    {
+                        <div class="grid-table table-responsive-xl">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="align-middle text-center">SR NO.</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("ManageCatagory", "Admin", new { CTCSort = "CTC", CTCIndex = Request.QueryString["CTCIndex"], CTCSearch = Request.QueryString["CTCSearch"], AddedBySort = Request.QueryString["AddedBySort"] })'">CATAGORY</th>
+                                        <th scope="col" class="align-middle">DESCRIPTION</th>
+                                        <th scope="col" class="align-middle">DATE ADDED</th>
+                                        <th scope="col" class="align-middle" onclick="location.href='@Url.Action("ManageCatagory", "Admin", new { AddedBySort = "addedby", CTCIndex = Request.QueryString["CTCIndex"], CTCSearch = Request.QueryString["CTCSearch"], CTCSort = Request.QueryString["CTCSort"] })'">ADDED BY</th>
+                                        <th scope="col" class="align-middle">ACTIVE</th>
+                                        <th scope="col" class="align-middle">ACTION</th>
+                                        <th scope="col" class="align-middle"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int index = 1;}
+                                    @foreach (NotesMarketplace.Models.AdminCTCWithAddedBy ctc in Model.ctc)
+                                    { 
+                                    <tr>
+                                        <td class="align-middle text-center">@index</td>
+                                        <td class="align-middle">@ctc.CTC.CTCValue</td>
+                                        <td class="align-middle">@ctc.CTC.Descriptions</td>
+                                        <td class="align-middle">@ctc.CTC.CreatedDate.Value.ToString("d"), @ctc.CTC.CreatedDate.Value.ToString("t")</td>
+                                        <td class="align-middle">@ctc.FirstName @ctc.LastName</td>
+                                        @if (ctc.CTC.IsActive)
+                                        {
+                                            <td class="align-middle">Yes</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="align-middle">No</td>
+                                        }
+
+                                        <td class="align-middle">
+                                            <a href="@Url.Action("EditCategory","Admin", new { id= ctc.CTC.CTCId})"><img src="~/Content/Admin/img/images/edit.png"></a><a href="@Url.Action("DeleteCategory","Admin", new { id= ctc.CTC.CTCId})"><img src="~/Content/Admin/img/images/delete.png" class="leftmar"></a>
+                                        </td>
+                                        <td></td>
+
+                                    </tr>
+                                        index++;
+                                    }
+                                    </tbody>
+                            </table>
+                        </div>
+                                        }
+                    }
+                    </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- Manage Category -->
+<section id="pagination">
+    @Html.PagedListPager(Model.ctc, CTCIndex => Url.Action("ManageCatagory", "Admin", new { CTCIndex, CTCSearch = Request.QueryString["CTCSearch"], CTCSort = Request.QueryString["CTCSort"], AddedBySort = Request.QueryString["AddedBySort"] }), new PagedList.Mvc.PagedListRenderOptions
+{
+    ContainerDivClasses = null,
+    LiElementClasses = new string[] { "page-item1" },
+    UlElementClasses = new string[] { "pagination justify-content-center" },
+    LinkToNextPageFormat = "<i class='fa fa-chevron-right'></i>",
+    LinkToPreviousPageFormat = "<i class='fa fa-chevron-left'></i>",
+    MaximumPageNumbersToDisplay = 5,
+    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never
+
+})
+</section>

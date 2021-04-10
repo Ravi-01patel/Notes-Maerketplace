@@ -11,17 +11,25 @@ namespace NotesMarketplace
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web;
+
     public partial class AdminDetail
     {
         public int ID { get; set; }
         public int Users { get; set; }
         public string PhoneNumber { get; set; }
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Only number")]
+        public string Number { get; set; }
+
         public string ProfilePicture { get; set; }
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.PNG|.JPG)$", ErrorMessage = "Only Image files allowed.")]
+        public HttpPostedFileBase ProfilePic { get; set; }
         public string SecondaryEmail { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+
     
         public virtual User User { get; set; }
     }

@@ -12,7 +12,7 @@ namespace NotesMarketplace.Models
 
         public NoteDetail notedetail { get; set; }
 
-        public List<Feedback> feedback { get; set; }
+        public List<UserFeedback> feedback { get; set; }
 
         public int rating { get; set; }
 

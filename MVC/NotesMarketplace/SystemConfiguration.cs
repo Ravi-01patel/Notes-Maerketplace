@@ -11,17 +11,31 @@ namespace NotesMarketplace
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Web;
+
     public partial class SystemConfiguration
     {
         public int ConfigId { get; set; }
+        [Required]
         public string EmailID1 { get; set; }
         public string EmailID2 { get; set; }
+        [Required]
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Only integer")]
         public string PhoneNumber { get; set; }
+        
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.PNG|.JPG)$", ErrorMessage = "Only Image files allowed.")]
+        public HttpPostedFileBase DefaultUserProfilePicture { get; set; }
         public string DefaultProfilePicture { get; set; }
+        
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif|.PNG|.JPG)$", ErrorMessage = "Only Image files allowed.")]
+        public HttpPostedFileBase DefaultNotePicture { get; set; }
         public string DefaultNotePreview { get; set; }
+        [Url(ErrorMessage = "Please enter a valid url")]
         public string FacebookUrl { get; set; }
+        [Url(ErrorMessage = "Please enter a valid url")]
         public string TwitterUrl { get; set; }
+        [Url(ErrorMessage = "Please enter a valid url")]
         public string LinkedInUrl { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> CreatedBy { get; set; }
