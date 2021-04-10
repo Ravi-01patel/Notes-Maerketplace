@@ -3893,6 +3893,8 @@
     <None Include="Views\Admin\PublishedNotes.cshtml" />
     <None Include="Views\Admin\RejectedNotes.cshtml" />
     <None Include="Views\Admin\SpamReport.cshtml" />
+    <Content Include="Upload\UserProfilePicture\User13.jpg" />
+    <Content Include="Upload\UserProfilePicture\User12.jpg" />
     <Content Include="Upload\UserProfilePicture\User7.jpg" />
     <Content Include="Upload\UserProfilePicture\User10.jpg" />
     <Content Include="Upload\UserProfilePicture\User9.jpg" />
